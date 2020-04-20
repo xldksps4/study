@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">
+<!DOCTYPE log4j:configuration PUBLIC
+     "-//APACHE//DTD LOG4J 1.2//EN" "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd">
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
 	<!-- Appenders -->
@@ -12,7 +13,7 @@
 	
 	<!-- Application Loggers -->
 	<logger name="com.update.semi">
-		<level value="info" />
+		<level value="debug" /> <!-- info -> debug -->
 	</logger>
 	
 	<!-- 3rdparty Loggers -->
@@ -32,10 +33,35 @@
 		<level value="info" />
 	</logger>
 
-	<!-- Root Logger -->
-	<root>
-		<priority value="warn" />
-		<appender-ref ref="console" />
-	</root>
+    <!-- 추가 -->
+    <logger name="org.ibatis">
+       <level value="info"/>
+    </logger>
+    
+    <logger name="java.sql">
+       <level value="info"/>
+    </logger>
+	
+	   <!-- Root Logger (수정) root 태그는 전역설정 logger임-->
+   <root>
+      <!-- <priority value="warn" />     이전 -->
+      <priority value="INFO" />    <!-- 추가 -->   
+      <appender-ref ref="console" />
+   </root>
+   
+   <!-- 
+      log4j log level
+      -Level.FATAL : 치명적인 에러
+      -Level.ERROR : 에러
+      -Level.WARN :  경고
+      -Level.INFO :  정보
+      -Level.DEBUG : 디버깅 정보
+      -Level.TRACE : DEBUG + @(상세정보)
+   
+      >>> 설정에 따라 해당하는 경도에 따른 레벨의 메시지를 띄운다
+       ex) Level.FATAL 치명적인 에러이외에 띄우지 않는다
+           Level.TRACE 가장 많은 정보와 빈번한 정보를 띄운다
+    -->
+   
 	
 </log4j:configuration>

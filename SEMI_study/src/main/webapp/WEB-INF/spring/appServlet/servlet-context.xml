@@ -3,9 +3,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
@@ -23,6 +25,18 @@
 	
 	<context:component-scan base-package="com.update.semi" />
 	
-	
+	   <!-- logAop -->
+   <aop:aspectj-autoproxy />
+   <!-- 자동으로 AspectJ 라이브러리를 통해 Porxy객체를 생성한다 -->
+
+   <!-- Interceptor -->
+   <interceptors>
+      <interceptor>
+         <mapping path="/*" /> <!-- 어떤 경로로 들어왔을때 실행할지 메핑 -->
+         <beans:bean
+            class="com.update.semi.common.interceptor.LoginInterceptor"></beans:bean>
+         <!-- 어떤 interceptor 클래스를 사용할지 -->
+      </interceptor>
+   </interceptors>
 	
 </beans:beans>

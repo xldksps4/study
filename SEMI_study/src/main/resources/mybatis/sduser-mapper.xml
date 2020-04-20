@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sduser">
+
+  
+  <resultMap type="sduserDto" id="sduserMap">
+   <result property="sduseq" column="SDUSEQ"/>
+   <result property="sdueamil" column="SDUEAMIL"/>
+   <result property="sdupw" column="SDUPW"/>
+   <result property="sduname" column="SDUNAME"/>
+   <result property="sdusex" column="SDUSEX"/>
+   <result property="sdunick" column="SDUNICK"/>
+   <result property="sdudob" column="SDUDOB"/>
+   <result property="sdudeact" column="SDUDEACT"/>
+   <result property="sdugrade" column="SDUGRADE"/>
+   <result property="sdudeactdate" column="SDUDEACTDATE"/>
+   <result property="sduregdate" column="SDUREGDATE"/>
+  </resultMap>
+  
+  <insert id="userRegist" parameterType="sduserDto">
+  	INSERT INTO SDUSER
+ 	VALUES(SDUSEQ.NEXTVAL,#{sdueamil},#{sdupw},#{sduname},#{sdusex},#{sdunick},#{sdudob},
+ 	#{sdudeact},#{sdugrade},#{sdudeactdate},SYSDATE)
+  </insert>
+  
+  <select id="selectOne" parameterType="String" resultMap="sduserMap">
+  	SELECT SDUSEQ FROM SDUSER WHERE SDUSEQ = #{sduseq}
+  </select>
+  
+  <select id="idChk" parameterType="String" resultMap="sduserMap">
+  	SELECT * FROM SDUSER WHERE SDUSEQ = #{sduseq} AND SDUDEACT = 'N'
+  </select>
+  
+  <select id="login" parameterType="sduserDto" resultMap="sduserMap">
+  	SELECT * FROM SDUSER WHERE SDUEMAIL = #{sduemail} AND SDUPW = #{sdupw} AND SDUDEACT = 'N'
+  </select>
+  
+</mapper>

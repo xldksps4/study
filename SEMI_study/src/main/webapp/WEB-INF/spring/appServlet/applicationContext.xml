@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	
+<!-- 1) PropertyPlaceholderConfigurer를 이용해  외부프로퍼티(db.properties)를 참조할 수 있게 적용 -->	
+	<!-- db.properties -->
+	<!-- classpath: = ? src/main/resources 를 자동으로 연결해줌 -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:mybatis/db.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+<!-- 2) 참조한 db.properties를 읽어  BasicDataSource(데이터 베이스 커넥션 풀객체) Bean추가 -->
+	<!-- dataSource -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${driver}"></property>
+		<property name="url" value="${url}"></property>
+		<property name="username" value="${username}"></property>
+		<property name="password" value="${password}"></property>
+	</bean>
+
+<!-- 3) mybatis의 SqlSession을 인스턴스화 하기위한 객체 SqlSessionFactoryBean Bean추가
+     (위의 BasicDataSourc와 config.xml파일을 속성으로 사용한다) -->	
+	<!-- mybatis (sqlSessionFactory) -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="configLocation" value="WEB-INF/spring/sqls/config.xml"/>
+	</bean>
+	
+	
+	
+	
+<!-- 4) SqlSessionTemplate Bean추가 Session객체의 사용편의성을 위해 사용한다(자동 오픈 클로즈 지원) -->
+
+	<!-- mybatis (sqlSessionTemplate) -->
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSession"/>
+	</bean>
+
+
+	<!-- 트랜잭션 처리와 관련된 매니저 객체 설정 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="100000000"/>
+		<property name="defaultEncoding" value="UTF-8"/>
+	</bean>	
+	
+	
+	
+	
+	
+</beans>
