@@ -69,6 +69,17 @@ public class SdboardDto {
 	//파일업로드 시 실제 파일 담음
 	private MultipartFile[] file;
 
+	//게시물 시작페이지
+	private int startBoardNo;
+	
+	//게시물 끝페이지
+	private int endBoardNo;
+	
+	//검색-검색영역
+	private String category;
+	//검색-키워드
+	private String keyword;
+	
 	
 	/* Contructer */
 	
@@ -78,7 +89,8 @@ public class SdboardDto {
 	public SdboardDto(int sdbseq, int sdbtabno, int sdbgroupseq, int sdbgroupno, String sdbfirstfolder,
 			String sdbsecondfolder, String sdbthirdfolder, int sdbimportance, String sdbtitle, String sduemail,
 			String sdbcontent, String sdbregdate, String sdbviews, String sdblike, String sdbthumbnail,
-			String sdbimgpath, String sdbfilename, String sdbfilepath, MultipartFile[] file) {
+			String sdbimgpath, String sdbfilename, String sdbfilepath, MultipartFile[] file, int startBoardNo,
+			int endBoardNo, String category, String keyword) {
 		super();
 		this.sdbseq = sdbseq;
 		this.sdbtabno = sdbtabno;
@@ -99,7 +111,13 @@ public class SdboardDto {
 		this.sdbfilename = sdbfilename;
 		this.sdbfilepath = sdbfilepath;
 		this.file = file;
+		this.startBoardNo = startBoardNo;
+		this.endBoardNo = endBoardNo;
+		this.category = category;
+		this.keyword = keyword;
 	}
+
+
 
 
 
@@ -253,10 +271,42 @@ public class SdboardDto {
 		return file;
 	}
 
-	public void setFiles(MultipartFile[] file) {
+	public void setFile(MultipartFile[] file) {
 		this.file = file;
 	}
 
+	public int getStartBoardNo() {
+		return startBoardNo;
+	}
+
+	public void setStartBoardNo(int startBoardNo) {
+		this.startBoardNo = startBoardNo;
+	}
+
+	public int getEndBoardNo() {
+		return endBoardNo;
+	}
+
+	public void setEndBoardNo(int endBoardNo) {
+		this.endBoardNo = endBoardNo;
+	}
+	
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+	
 	
 	/* toString */
 	
@@ -268,13 +318,11 @@ public class SdboardDto {
 				+ ", sdbtitle=" + sdbtitle + ", sduemail=" + sduemail + ", sdbcontent=" + sdbcontent + ", sdbregdate="
 				+ sdbregdate + ", sdbviews=" + sdbviews + ", sdblike=" + sdblike + ", sdbthumbnail=" + sdbthumbnail
 				+ ", sdbimgpath=" + sdbimgpath + ", sdbfilename=" + sdbfilename + ", sdbfilepath=" + sdbfilepath
-				+ ", file N-A-M-E= " + Arrays.toString(file) + "]";
+				+ ", file=" + Arrays.toString(file) + ", startBoardNo=" + startBoardNo + ", endBoardNo=" + endBoardNo
+				+ ", category=" + category + ", keyword=" + keyword + "]";
 	}
-	
-	
-	
 
 
-	
+
 
 }

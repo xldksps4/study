@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.update.semi.common.util.DownloadFileUtils;
+import com.update.semi.common.util.OraclePagination;
 import com.update.semi.common.util.UploadFileUtils;
 import com.update.semi.sdboard.biz.SdboardBiz;
 import com.update.semi.sdboard.dto.SdboardDto;
@@ -47,12 +48,12 @@ public class SdboardController {
 
 	
 	//보드 리스트로(페이징은 어떻게...?
-	@RequestMapping(value="/BOARD_goboardlist.do")
+	@RequestMapping(value="/BOARD_goboardlist2.do")
 	public String goBoardList(HttpSession session, Model model, SdboardDto dto) {
 		//세션
 		SduserDto loginDto = (SduserDto)session.getAttribute("login");
 		//리스트
-		List<SdboardDto> boardDto = sdboardBiz.selectAll(dto);
+		List<SdboardDto> boardDto = sdboardBiz.boardList(dto);
 		logger.info("boardDto >>>"+boardDto);
 		logger.info("loginDto >>>"+loginDto);
 		model.addAttribute("boardDto", boardDto);
@@ -84,7 +85,7 @@ public class SdboardController {
 		//세션
 		SduserDto loginDto = (SduserDto)session.getAttribute("login");
 		//리스트
-//		List<SdboardDto> boardDto = sdboardBiz.selectAll(dto);
+//		List<SdboardDto> boardDto = sdboardBiz.boardList(dto);
 		logger.info("로그인 세션 들어가니? "+ loginDto);
 //		model.addAttribute("boardDto", boardDto);
 		model.addAttribute("loginDto", loginDto);
@@ -100,7 +101,7 @@ public class SdboardController {
 		//세션
 		SduserDto loginDto = (SduserDto)session.getAttribute("login");
 		//리스트
-		List<SdboardDto> boardDto = sdboardBiz.selectAll(dto);
+		List<SdboardDto> boardDto = sdboardBiz.boardList(dto);
 				
 		model.addAttribute("boardDto", boardDto);
 		model.addAttribute("loginDto", loginDto);
@@ -374,6 +375,47 @@ public class SdboardController {
 	   }
 	   
 	   
+	   //------------------ pagenation ----------------------//
 	   
+	   // 페이징처리 후 메인리스트로
+	   @RequestMapping(value = "/BOARD_goboardlist.do")                           
+	   public String boardMain(HttpSession session, Model model, @ModelAttribute SdboardDto dto, @RequestParam(defaultValue = "1") int currentPage) {
+	      logger.info("[Controller]____BOARD_pageingList >>> [input] sdboardDto : " + dto);   
+	   //세션
+	      SduserDto loginDto = (SduserDto)session.getAttribute("login");
+	   //페이징   
+	      //1) 전체 게시물 개수 가져오기
+	      int totalBoardCount = sdboardBiz.getTotalBoard(dto);   // 전체게시물 수  or 검색한 게시물 수
+	      
+	      /*2) 페이징 클래스 >> 쿼리에 필요한 시작페이지 번호, 끝 페이지 번호를 계산해서 가지고 있음  */
+	      OraclePagination pagination = new OraclePagination(totalBoardCount, currentPage);   // 전체 게시물 수, 현재 페이지 (== 요청된 페이지) 
+	      logger.info("board list page >>> [페이징] OraclePagination : " + pagination );
+	      
+	    
+	      //3) boardDto에 시작 페이지, 끝 페이지 추가
+	      dto.setStartBoardNo(pagination.getStartBoardNo());
+		  dto.setEndBoardNo(pagination.getEndBoardNo());
+	   
+	   //리스트
+		  // top N 쿼리를 사용하여 게시물 리스트 가져오기 
+		  List<SdboardDto> boardDto = sdboardBiz.boardList(dto);
+		  
+		  if(loginDto == null) {
+			  logger.info("세션 값이 넘어오지 않습니다.");
+		  }
+		  if(boardDto == null) {
+			  logger.info("게시판 값이 넘어오지 않습니다.");
+		  }
+		  if(pagination.equals(0)) {
+			  logger.info("페이징 값이 넘어오지 않습니다.");
+		  }
+		  
+		  model.addAttribute("loginDto", loginDto);
+	      model.addAttribute("boardDto", boardDto);
+	      model.addAttribute("pagination", pagination);
+	      return "board/boardlist";
+	   }
+	
+	
 	   
 }

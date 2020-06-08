@@ -22,6 +22,13 @@ public interface SdboardBiz {
 	//글 즐겨찾기 보기
 	
 	
+	/*페이징*/
+	
+	//전체 게시물 개수 가져오기
+	public int getTotalBoard(SdboardDto dto);
+	//페이징된 전체 게시물 가져오기
+	public List<SdboardDto> boardList(SdboardDto dto);
+	
 	/* 파일업로드 글작성 */
 	
 	//파일업로드, 이미지 넣기

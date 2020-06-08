@@ -63,30 +63,32 @@ table {
 
 				<thead>
 					<!-- 검색창 영역 -->
-					<!-- 		<tr> -->
-					<!-- 			<td> -->
-					<!-- 							<div class="search-label">검색</div> -->
-					<!-- 						</td> -->
-					<!-- 						<td colspan="3" class="search-form"> -->
-					<!-- 							<div class="search-select"> -->
-					<!-- 								<select class="form-control form-control-sm" name="search-category" -->
-					<!-- 									id="search-category"> -->
-					<!-- 									<option value="title">제목</option> -->
-					<!-- 									<option value="content">본문</option> -->
-					<!-- 									<option value="joinemail">작성자</option> -->
-					<!-- 								</select> -->
-					<!-- 							</div> -->
-					<!-- 							<div class="search-input"> -->
-					<!-- 								<input type="text" class="form-control form-control-sm" -->
-					<!-- 									name="keyword" id="keyword" onkeydown="onKeyDown();"> -->
-					<!-- 							</div> -->
-					<!-- 							<div class="search-btn-group"> -->
-					<!-- 								<button class="btn btn-sm btn-primary" -->
-					<!-- 									id="search-btn" onclick="search();" >검 색</button> -->
-					<!-- 							</div> -->
-					<!-- 						</td> -->
+					
+					<!-- 매퍼의 category는 검색영역의 class= category와 동일, ==으로 묶인 것들은 option value -->
+					<tr>
+						<td>
+							<div class="search-label">검색</div>
+								</td>
+									<td colspan="3" class="search-form">
+										<div class="search-select">
+											<select class="form-control form-control-sm" name="category"
+														id="search-category">
+												<option value="sdbtitle">제목</option>
+												<option value="sdbcontent">본문</option>
+												<option value="sduemail">작성자</option>
+											</select>
+												</div>
+												<div class="search-input">
+													<input type="text" class="form-control form-control-sm"
+														name="keyword" id="keyword" onkeydown="onKeyDown();">
+												</div>
+												<div class="search-btn-group">
+													<button class="btn btn-sm btn-primary"
+														id="search-btn" onclick="search();" >검 색</button>
+												</div>
+											</td>
 
-					<!-- 		</tr> -->
+							</tr>
 					<!-- 검색창 영역 end -->
 
 					<!-- 리스트 영역 -->
@@ -167,12 +169,87 @@ out : \꺽쇠%= 과 같은 역할, 출력
 
 
 			<!-- 페이징 영역 -->
-
-			<!-- 	<div> -->
-			<!-- 	[prev] -->
-			<%-- 	<c:forEach var="i" begin="1" end="10" step="3">${i }<br/></c:forEach> --%>
-			<!-- 	 [next] -->
-			<!-- 	</div> -->
+   <footer id="paging">
+         <div class="col-md-2"></div>
+         <div class="col-md-8">
+            <ul class="pagination">
+            
+               <!-- << : 10 페이지 뒤로-->
+               <c:if test="${pagination.startPage >= 11 }">
+                  <li onClick="paging()">
+                     <a href="main.do?currentPage=${pagination.currentPage -10}" aria-label="Previous">
+                        <span aria-hidden="true">&lt;&lt;</span>
+                     </a>
+                  </li>
+               </c:if>
+               
+               <!-- < -->
+               <c:if test="${pagination.currentPage ne 1 }">
+                  <li onClick="paging(${pagination.prevPage })">
+                     <a href="main.do?currentPage=${pagination.prevPage }" aria-label="Previous">
+                        <span aria-hidden="true">&nbsp;&lt;&nbsp;</span>
+                     </a>
+                  </li>
+               </c:if>
+               
+               <!-- 처음 : ... 1 -->
+               <c:if test="${pagination.currentPage > 6 }">
+                  <li onClick="paging(1)">
+                     <a href="main.do?currentPage=1" aria-label="Previous">
+                        <span aria-hidden="true">1</span>
+                     </a>
+                  </li>
+                  <li class="none">
+                     <span aria-hidden="true">...</span>
+                  </li>
+               </c:if>
+               
+               <!-- 번호 출력 -->
+               <c:forEach var="pageNum" begin="${pagination.startPage }" end="${pagination.endPage }">
+                  <li class="page-item  <c:out value="${pagination.currentPage == pageNum ? 'active' : ''}"/>" id="<c:out value="${pagination.currentPage == pageNum ? 'none' : ''}"/>" onClick="paging('${pageNum }')">
+                     <a class="page-link" href="main.do?currentPage=${pageNum }">${pageNum }</a>
+                  </li>
+               </c:forEach>
+               
+               <!-- 끝 : ... N  -->
+               <c:choose>
+                  <c:when test="${pagination.endPage ne pagination.totalPage && pagination.totalPage > 10}">
+                     <li class="none">
+                        <span aria-hidden="true">...</span>
+                     </li>
+                     <li onClick="paging(${pagination.totalPage })">
+                        <a href="main.do?currentPage=${pagination.totalPage }" aria-label="Next"> 
+                           <span aria-hidden="true">${pagination.totalPage }</span>
+                        </a>
+                     </li>
+                  </c:when>
+                  <c:otherwise>
+                  </c:otherwise>
+               </c:choose>
+               
+               <!-- > -->
+               <c:if test="${pagination.currentPage ne pagination.totalPage }">
+                  <li onClick="paging(${pagination.nextPage })">
+                     <a href="main.do?currentPage=${pagination.nextPage }" aria-label="Next"> 
+                        <span aria-hidden="true">&nbsp;&gt;&nbsp;</span>
+                     </a>
+                  </li>
+               </c:if>
+               
+               <!-- >> : 10 페이지 앞으로-->
+               <c:if test="${(pagination.currentPage +10) <= pagination.totalPage }">
+                  <li onClick="paging(${pagination.nextPage })">
+                     <a href="main.do?currentPage=${pagination.currentPage +10 }" aria-label="Next"> 
+                        <span aria-hidden="true">&gt;&gt;</span>
+                     </a>
+                  </li>
+               </c:if>
+               
+            </ul>
+         </div>
+         <div class="col-md-2"></div>
+   </footer>
+   <!-- 페이징 영역 끝 -->
 		</form>
 	</div>
 </body>

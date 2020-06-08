@@ -53,6 +53,21 @@ public class SdboardBizImpl implements SdboardBiz {
 		return dao.selectDetail(dto);
 	}
 
+	
+	/*페이징*/
+	
+	//전체 게시물 개수 가져오기
+	@Override
+	public int getTotalBoard(SdboardDto dto) {
+		// TODO Auto-generated method stub
+		return dao.getTotalBoard(dto);
+	}
+	//페이징된 전체 게시물 가져오기
+	@Override
+	public List<SdboardDto> boardList(SdboardDto dto) {
+		// TODO Auto-generated method stub
+		return dao.boardList(dto);
+	}
 
 
 	/*파일업로드 글작성*/
