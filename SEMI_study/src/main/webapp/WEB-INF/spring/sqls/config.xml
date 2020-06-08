@@ -23,10 +23,12 @@ mappers?
 
 	<typeAliases>
 		<typeAlias type="com.update.semi.sduser.dto.SduserDto" alias="sduserDto"/>
+		<typeAlias type="com.update.semi.sdboard.dto.SdboardDto" alias="sdboardDto"/>
 	</typeAliases>
 
 	<mappers>
 		<mapper resource="/mybatis/sduser-mapper.xml"/>
+		<mapper resource="/mybatis/sdboard-mapper.xml"/>
 	</mappers>
 
 </configuration>

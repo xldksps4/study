@@ -1,6 +1,13 @@
 package com.update.semi.sduser.dto;
 
+import java.io.File;
 import java.util.Date;
+
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.web.multipart.MultipartFile;
 
 //회원 
 public class SduserDto {
@@ -9,22 +16,26 @@ public class SduserDto {
 	private int sduseq;
 
 	// 아이디
-	private String sdueamil;
+	@Email
+	private String sduemail;
 
 	// 비번
+	@Pattern(regexp="^.*(?=.{8,20})(?=.*[0-9])(?=.*[a-zA-Z]).*$", message="비밀번호가 틀렸습니다.")
 	private String sdupw;
 
 	// 이름
+	@Pattern(regexp = "^[가-힣]{2,6}$")
 	private String sduname;
 
 	// 성별
 	private String sdusex;
 
 	// 닉네임
+	@NotEmpty(message="닉네임을 입력하세요")
 	private String sdunick;
 
 	// 생년월일
-	private Date sdudob;
+	private String sdudob;
 
 	// 탈퇴여부
 	private String sdudeact;
@@ -37,18 +48,24 @@ public class SduserDto {
 
 	// 가입날짜
 	private Date sduregdate;
+	
+	// 프로필 이미지 경로
+	private String sduimgpath;
 
-// 생성자
+	//파일업로드
+	private MultipartFile sdufileupload;
+	
+	/* Contructer */
 	
 	public SduserDto() {
 		
 	}
 	
-	public SduserDto(int sduseq, String sdueamil, String sdupw, String sduname, String sdusex, String sdunick,
-			Date sdudob, String sdudeact, String sdugrade, Date sdudeactdate, Date sduregdate) {
+	public SduserDto(int sduseq, String sduemail, String sdupw, String sduname, String sdusex, String sdunick,
+			String sdudob, String sdudeact, String sdugrade, Date sdudeactdate, Date sduregdate, String sduimgpath) {
 		super();
 		this.sduseq = sduseq;
-		this.sdueamil = sdueamil;
+		this.sduemail = sduemail;
 		this.sdupw = sdupw;
 		this.sduname = sduname;
 		this.sdusex = sdusex;
@@ -58,9 +75,10 @@ public class SduserDto {
 		this.sdugrade = sdugrade;
 		this.sdudeactdate = sdudeactdate;
 		this.sduregdate = sduregdate;
+		this.sduimgpath = sduimgpath;
 	}
 
-// Getter & Setter
+	/* Getter Setter */
 
 	public int getSduseq() {
 		return sduseq;
@@ -70,12 +88,12 @@ public class SduserDto {
 		this.sduseq = sduseq;
 	}
 
-	public String getSdueamil() {
-		return sdueamil;
+	public String getSduemail() {
+		return sduemail;
 	}
 
-	public void setSdueamil(String sdueamil) {
-		this.sdueamil = sdueamil;
+	public void setSduemail(String sduemail) {
+		this.sduemail = sduemail;
 	}
 
 	public String getSdupw() {
@@ -110,11 +128,11 @@ public class SduserDto {
 		this.sdunick = sdunick;
 	}
 
-	public Date getSdudob() {
+	public String getSdudob() {
 		return sdudob;
 	}
 
-	public void setSdudob(Date sdudob) {
+	public void setSdudob(String sdudob) {
 		this.sdudob = sdudob;
 	}
 
@@ -149,12 +167,34 @@ public class SduserDto {
 	public void setSduregdate(Date sduregdate) {
 		this.sduregdate = sduregdate;
 	}
+	
+	public String getSduimgpath() {
+		return sduimgpath;
+	}
+
+	public void setSduimgpath(String sduimgpath) {
+		this.sduimgpath = sduimgpath;
+	}
+
+	public MultipartFile getSdufileupload() {
+		return sdufileupload;
+	}
+
+	public void setSdufileupload(MultipartFile sdufileupload) {
+		this.sdufileupload = sdufileupload;
+	}
+
+
+
+	
+	/* toString */	
 
 	@Override
 	public String toString() {
-		return "RegisterDto [sduseq=" + sduseq + ", sdueamil=" + sdueamil + ", sdupw=" + sdupw + ", sduname=" + sduname
+		return "SduserDto [sduseq=" + sduseq + ", sduemail=" + sduemail + ", sdupw=" + sdupw + ", sduname=" + sduname
 				+ ", sdusex=" + sdusex + ", sdunick=" + sdunick + ", sdudob=" + sdudob + ", sdudeact=" + sdudeact
-				+ ", sdugrade=" + sdugrade + ", sdudeactdate=" + sdudeactdate + ", sduregdate=" + sduregdate + "]";
+				+ ", sdugrade=" + sdugrade + ", sdudeactdate=" + sdudeactdate + ", sduregdate=" + sduregdate
+				+ ", sduimgpath=" + sduimgpath + ", sdufileupload=" + sdufileupload + "]";
 	}
 
 }

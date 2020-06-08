@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.update</groupId>
 	<artifactId>semi</artifactId>
@@ -79,10 +80,10 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.15</version>
 			<exclusions>
-				<exclusion>
-					<groupId>javax.mail</groupId>
-					<artifactId>mail</artifactId>
-				</exclusion>
+<!-- 				<exclusion> -->
+<!-- 					<groupId>javax.mail</groupId> -->
+<!-- 					<artifactId>mail</artifactId> -->
+<!-- 				</exclusion> -->
 				<exclusion>
 					<groupId>javax.jms</groupId>
 					<artifactId>jms</artifactId>
@@ -134,7 +135,8 @@
 		</dependency>
 		
 		<!-- 추가 -->
-
+		
+<!-- 메일송신방법 1 -->
 		<!-- 메일 전송관련 라이브러리 -->
 		<!-- https://mvnrepository.com/artifact/com.sun.activation/javax.activation -->
 		<dependency>
@@ -143,21 +145,37 @@
 			<version>1.2.0</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/com.sun.mail/javax.mail -->
-		<dependency>
-			<groupId>com.sun.mail</groupId>
-			<artifactId>javax.mail</artifactId>
-			<version>1.5.5</version>
-		</dependency>
+ 		<!-- https://mvnrepository.com/artifact/com.sun.mail/javax.mail --> 
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.sun.mail</groupId> -->
+<!-- 			<artifactId>javax.mail</artifactId> -->
+<!-- 			<version>1.5.5</version> -->
+<!-- 		</dependency> -->
 
-		<!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
+ 		<!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>javax.mail</groupId> -->
+<!-- 			<artifactId>javax.mail-api</artifactId> -->
+<!-- 			<version>1.5.5</version> -->
+<!-- 		</dependency> -->
+		
+<!-- 메일송신방법 2 -->		
+				<!-- mail 관련 exclusion태그 주석처리하고 mail관련 라이브러리 의존성주입 -->
 		<dependency>
 			<groupId>javax.mail</groupId>
-			<artifactId>javax.mail-api</artifactId>
-			<version>1.5.5</version>
+			<artifactId>mail</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<!-- java 1.8버전은 아래와 같은 보조 라이브러리를 추가 주입해줘야한다. -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>3.0.5.RELEASE</version>
 		</dependency>
 		
-		<!-- commons 아바치 사의 자바 확장 라이브러리 -->
+		
+		
+		<!-- commons 아파치 사의 자바 확장 라이브러리 -->
 		<!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
 		<dependency>
 			<groupId>commons-beanutils</groupId>
@@ -261,6 +279,7 @@
 		</dependency>
 		
 		
+		<!-- #1 : 파일업로드, 섬네일 생성을 도와주는 라이브러리 의존성 설정 -->
 		<!-- file upload lib -->
 		<dependency>
 			<groupId>commons-fileupload</groupId>
@@ -273,6 +292,14 @@
 			<version>2.6</version>
 		</dependency>
 		
+		<!-- #1 섬네일 생성을 도와주는 라이브러리 의존성 설정 -->
+	    <!-- https://mvnrepository.com/artifact/net.coobird/thumbnailator -->
+	    <dependency>
+	        <groupId>net.coobird</groupId>
+	        <artifactId>thumbnailator</artifactId>
+	        <version>0.4.8</version>
+	    </dependency>
+			
 		
 		<!-- Spring Integration module(message) : send to simple data in Spring 
 			Framework Program -->

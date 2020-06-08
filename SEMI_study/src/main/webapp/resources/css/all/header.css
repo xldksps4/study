@@ -1,0 +1,130 @@
+@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+
+/*
+ id : 100
+태그 : 10
+class : 1
+
+css오버라이딩은 
+#상위태그의 하위태그를 변화시키면 가능.
+ */
+
+html, body {
+	margin: 0px;
+	padding: 0px;
+}
+
+#header_wrap{
+	text-align: center;
+}
+
+.content{
+	height: 400px;
+	text-align: center;
+	opacity: 0.6;
+}
+.couple{
+	width: 800px;
+	height: 400px;
+}
+
+
+.login-btn{
+	border: none;
+	outline: none;
+	color: skyblue;
+	font-family: 'Jeju Gothic', cursive;
+	font-size: small;
+	padding-right: 25px;
+	padding-left: 25px;
+	padding-top: 20px;
+	padding-bottom: 0px;
+	background: white;
+}
+
+.login-btn:hover{
+	color: darkviolet;
+	cursor: pointer;
+}
+
+.logo{
+	height: 100px;
+}
+
+
+
+
+.nav {
+	height: 60px;
+	width: 100%;
+	background-color: white;
+	position: sticky;
+	top: 0;
+	z-index: 1;
+}
+
+.nav>div {
+	width: 80%;
+	margin-left: 11%;
+	height: 50px;
+	overflow: hidden;
+	float: left;
+	text-align: center;
+	background: white;
+}
+
+.nav>div>ul {
+	position: relative;
+	top: 0px;
+	padding-left: 0;
+	float: left;
+	width:33%;
+	margin: 0;
+	height: 160px;
+	display: inline-block;
+	list-style: none;
+	vertical-align: top;
+	font-family: 'Jeju Gothic', cursive;
+	background: white;
+}
+
+
+.nav ul li p{
+	color: rgb(51, 85, 139);
+	height: 20px;
+	letter-spacing: 2px;
+	font-size: 20px;
+}
+
+.nav ul li p:hover{
+	color: darkviolet;
+	cursor: default;
+}
+
+.nav ul li a {
+	position: relative;
+	top: 10px;
+	background: white;
+	width: 31%;
+	text-decoration: none;
+	color: skyblue;
+	line-height: 20px;
+	letter-spacing: 2px;
+	font-size: 15px;
+}
+
+.nav ul li a:hover{
+	color: darkviolet;
+	coursor: default;
+}
+
+.nav div:hover {
+	overflow: visible;
+	background: white;
+	display: inline-block;
+	z-index: 1;
+}
+
+#userPw{
+	font-family: serif;
+}

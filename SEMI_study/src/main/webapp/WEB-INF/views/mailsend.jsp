@@ -60,6 +60,7 @@
 		//Hashtable을 상속받은 객체
 		Properties p = new Properties(); // 정보를 담을 객체
 
+		//pop3 : 465(TLS)
 		p.put("mail.smtp.host", "smtp.naver.com");
 		p.put("mail.smtp.port", "465");
 		p.put("mail.smtp.starttls.enable", "true");
@@ -69,6 +70,13 @@
 		p.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 		p.put("mail.smtp.socketFactory.fallback", "false");
 
+		//imap : 587(ssl0)
+// 		p.put("mail.smtp.auth","true");
+// 		p.put("mail.smtp.starttls.enable","true");
+// 		p.put("mail.smtp.host","smtp.gmail.com");
+// 		p.put("mail.smtp.port","587");
+// 		p.put("mail.smtp.debug", "true");
+		
 		try {
 			Authenticator auth = new SMTPAuthenticatior();
 			Session ses = Session.getInstance(p, auth);
@@ -81,7 +89,7 @@
 			StringBuffer buffer = new StringBuffer();
 			buffer.append("인증코드: ");
 			buffer.append(randomNumber + "<br>");
-			Address fromAddr = new InternetAddress("hoyhi123@naver.com");//보내는사람
+			Address fromAddr = new InternetAddress("xldksps4@naver.com");//보내는사람
 			msg.setFrom(fromAddr);
 
 			Address toAddr = new InternetAddress(email); // 받는 사람
@@ -104,7 +112,7 @@
 	</div>
 	<div>
 		<pre>
-- 사이 사이트에서는 이메일이 아이디로 사용되기 때문에 반드시 인증이 필요합니다.
+- '사이' 에서는 이메일이 아이디로 사용되기 때문에 반드시 인증이 필요합니다.
 - 회원 가입시 등록된 이메일로만 인증번호를 받으실 수 있습니다.
 - 메일이 도착하지 않은 경우 광고로 분류 되었는지 확인해 주세요.
 </pre>

@@ -5,7 +5,7 @@
   
   <resultMap type="sduserDto" id="sduserMap">
    <result property="sduseq" column="SDUSEQ"/>
-   <result property="sdueamil" column="SDUEAMIL"/>
+   <result property="sduemail" column="SDUEMAIL"/>
    <result property="sdupw" column="SDUPW"/>
    <result property="sduname" column="SDUNAME"/>
    <result property="sdusex" column="SDUSEX"/>
@@ -15,24 +15,26 @@
    <result property="sdugrade" column="SDUGRADE"/>
    <result property="sdudeactdate" column="SDUDEACTDATE"/>
    <result property="sduregdate" column="SDUREGDATE"/>
+   <result property="sduimgpath" column="SDUIMGPATH"/>
   </resultMap>
   
   <insert id="userRegist" parameterType="sduserDto">
-  	INSERT INTO SDUSER
- 	VALUES(SDUSEQ.NEXTVAL,#{sdueamil},#{sdupw},#{sduname},#{sdusex},#{sdunick},#{sdudob},
- 	#{sdudeact},#{sdugrade},#{sdudeactdate},SYSDATE)
+  	INSERT INTO SDUSER VALUES(SDUSEQ.NEXTVAL,#{sduemail},#{sdupw},#{sduname},#{sdusex},#{sdunick},TO_DATE(#{sdudob}), 'NO', 'ADMIN', SYSDATE+730000, SYSDATE, default)
   </insert>
   
   <select id="selectOne" parameterType="String" resultMap="sduserMap">
-  	SELECT SDUSEQ FROM SDUSER WHERE SDUSEQ = #{sduseq}
+  	SELECT * FROM SDUSER WHERE SDUEMAIL = #{sduemail}
   </select>
   
   <select id="idChk" parameterType="String" resultMap="sduserMap">
-  	SELECT * FROM SDUSER WHERE SDUSEQ = #{sduseq} AND SDUDEACT = 'N'
+  	SELECT SDUEMAIL FROM SDUSER WHERE SDUSEQ = #{sduseq} AND SDUDEACT = 'N'
   </select>
   
   <select id="login" parameterType="sduserDto" resultMap="sduserMap">
-  	SELECT * FROM SDUSER WHERE SDUEMAIL = #{sduemail} AND SDUPW = #{sdupw} AND SDUDEACT = 'N'
+  	SELECT * FROM SDUSER WHERE SDUEMAIL = #{sduemail} AND SDUPW = #{sdupw} AND SDUDEACT = 'NO'
   </select>
   
+  <update id="infoUpdate" parameterType="sduserDto">
+  	UPDATE SDUSER SET SDUNICK=#{sdunick}, SDUIMGPATH=#{sduimgpath} WHERE SDUSEQ = #{sduseq}
+  </update>
 </mapper>

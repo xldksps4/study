@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sdboard">
+
+<resultMap type="sdboardDto" id="sdboardMap">
+   <result property="sdbseq" column="SDBSEQ"/>
+   <result property="sdbtabno" column="SDBTABNO"/>
+   <result property="sdbgroupseq" column="SDBGROUPSEQ"/>
+   <result property="sdbgroupno" column="SDBGROUPNO"/>
+   <result property="sdbfirstfolder" column="SDBFIRSTFOLDER"/>
+   <result property="sdbsecondfolder" column="SDBSECONDFOLDER"/>
+   <result property="sdbthirdfolder" column="SDBTHIRDFOLDER"/>
+   <result property="sdbimportance" column="SDBIMPORTANCE"/>
+   <result property="sdbtitle" column="SDBTITLE"/>
+   <result property="sduemail" column="SDUEMAIL"/>
+   <result property="sdbcontent" column="SDBCONTENT"/>
+   <result property="sdbregdate" column="SDBREGDATE"/>
+   <result property="sdbviews" column="SDBVIEWS"/>
+   <result property="sdblike" column="SDBLIKE"/>
+   <result property="sdbthumbnail" column="SDBTHUMBNAIL"/>
+   <result property="sdbimgpath" column="SDBIMGPATH"/>
+   <result property="sdbfilename" column="SDBFILENAME"/>
+   <result property="sdbfilepath" column="SDBFILEPATH"/>
+</resultMap>
+
+<select id="selectAll" resultMap="sdboardMap">
+select *  from SDBOARD
+</select>
+
+<select id="selectDetail" resultMap="sdboardMap">
+select * from SDBOARD where SDBSEQ = #{sdbseq}
+</select>
+
+<select id="getBoardNo"  resultType="int">
+select SDBSEQ from SDBOARD where SDUEMAIL=#{sduemail} and SDBTHUMBNAIL=#{sdbthumbnail}
+</select>
+
+<insert id="insertwrite" parameterType="sdboardDto">
+insert into SDBOARD(SDBSEQ,SDBTABNO,SDBGROUPSEQ,SDBGROUPNO,SDBTITLE,SDUEMAIL,SDBCONTENT,SDBREGDATE,SDBTHUMBNAIL,SDBIMGPATH,SDBFILENAME,SDBFILEPATH) 
+values(SDBSEQ.NEXTVAL,1,1,1,#{sdbtitle},#{sduemail},#{sdbcontent},SYSDATE,#{sdbthumbnail},#{sdbimgpath},#{sdbfilename},#{sdbfilepath})
+</insert>
+
+<insert id="insertImg" parameterType="sdboardDto">
+insert into SDBOARD(SDBSEQ,SDUEMAIL,SDBTHUMBNAIL,SDBIMGPATH) 
+values(SDBSEQ.NEXTVAL,#{sduemail},#{sdbthumbnail},#{sdbimgpath})
+</insert>
+
+<insert id="insertBoardNoImg" parameterType="sdboardDto">
+insert into SDBOARD(SDBSEQ,SDBTITLE,SDUEMAIL,SDBCONTENT,SDBREGDATE,SDBTHUMBNAIL,SDBFILENAME,SDBFILEPATH) 
+values(SDBSEQ.NEXTVAL,#{sdbtitle},#{sduemail},#{sdbcontent},SYSDATE,#{sdbthumbnail},#{sdbfilename},#{sdbfilepath})
+</insert>
+
+<update id="updateBoardYesImg" parameterType="sdboardDto">
+update SDBOARD set SDBTITLE=#{sdbtitle},SDBCONTENT=#{sdbcontent},SDBREGDATE=SYSDATE,SDBFILENAME=#{sdbfilename},SDBFILEPATH=#{sdbfilepath} 
+where SDBSEQ =#{sdbseq}
+</update>
+
+<update id="updatewrite" parameterType="sdboardDto">
+update SDBOARD set SDBTITLE=#{sdbtitle},SDBCONTENT=#{sdbcontent},SDBTHUMBNAIL=#{sdbthumbnail},SDBIMGPATH=#{sdbimgpath},SDBFILENAME=#{sdbfilename},SDBFILEPATH=#{sdbfilepath}
+where SDBSEQ =#{sdbseq}
+</update>
+
+
+<delete id="deletewrite" parameterType="int">
+delete from SDBOARD where SDBSEQ =#{sdbseq}
+</delete>
+
+</mapper>
