@@ -6,7 +6,7 @@ public class OraclePagination {
 	   private int currentPage;   
 	   
 	   // 한 페이지에 출력될 게시물 수
-	   private int boardListSize = 6;   
+	   private int boardListSize = 10;   
 	   
 	   // 한 화면에 출력될 페이지 수 == 출력될 페이지 크기(개수)
 	   private int pageSize = 10;

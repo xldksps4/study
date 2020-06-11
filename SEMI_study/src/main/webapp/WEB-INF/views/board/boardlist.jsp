@@ -177,7 +177,7 @@ out : \꺽쇠%= 과 같은 역할, 출력
                <!-- << : 10 페이지 뒤로-->
                <c:if test="${pagination.startPage >= 11 }">
                   <li onClick="paging()">
-                     <a href="main.do?currentPage=${pagination.currentPage -10}" aria-label="Previous">
+                     <a href="BOARD_goboardlist.do?currentPage=${pagination.currentPage -10}" aria-label="Previous">
                         <span aria-hidden="true">&lt;&lt;</span>
                      </a>
                   </li>
@@ -186,7 +186,7 @@ out : \꺽쇠%= 과 같은 역할, 출력
                <!-- < -->
                <c:if test="${pagination.currentPage ne 1 }">
                   <li onClick="paging(${pagination.prevPage })">
-                     <a href="main.do?currentPage=${pagination.prevPage }" aria-label="Previous">
+                     <a href="BOARD_goboardlist.do?currentPage=${pagination.prevPage }" aria-label="Previous">
                         <span aria-hidden="true">&nbsp;&lt;&nbsp;</span>
                      </a>
                   </li>
@@ -195,7 +195,7 @@ out : \꺽쇠%= 과 같은 역할, 출력
                <!-- 처음 : ... 1 -->
                <c:if test="${pagination.currentPage > 6 }">
                   <li onClick="paging(1)">
-                     <a href="main.do?currentPage=1" aria-label="Previous">
+                     <a href="BOARD_goboardlist.do?currentPage=1" aria-label="Previous">
                         <span aria-hidden="true">1</span>
                      </a>
                   </li>
@@ -207,7 +207,7 @@ out : \꺽쇠%= 과 같은 역할, 출력
                <!-- 번호 출력 -->
                <c:forEach var="pageNum" begin="${pagination.startPage }" end="${pagination.endPage }">
                   <li class="page-item  <c:out value="${pagination.currentPage == pageNum ? 'active' : ''}"/>" id="<c:out value="${pagination.currentPage == pageNum ? 'none' : ''}"/>" onClick="paging('${pageNum }')">
-                     <a class="page-link" href="main.do?currentPage=${pageNum }">${pageNum }</a>
+                     <a class="page-link" href="BOARD_goboardlist.do?currentPage=${pageNum }">${pageNum }</a>
                   </li>
                </c:forEach>
                
@@ -218,7 +218,7 @@ out : \꺽쇠%= 과 같은 역할, 출력
                         <span aria-hidden="true">...</span>
                      </li>
                      <li onClick="paging(${pagination.totalPage })">
-                        <a href="main.do?currentPage=${pagination.totalPage }" aria-label="Next"> 
+                        <a href="BOARD_goboardlist.do?currentPage=${pagination.totalPage }" aria-label="Next"> 
                            <span aria-hidden="true">${pagination.totalPage }</span>
                         </a>
                      </li>
@@ -230,7 +230,7 @@ out : \꺽쇠%= 과 같은 역할, 출력
                <!-- > -->
                <c:if test="${pagination.currentPage ne pagination.totalPage }">
                   <li onClick="paging(${pagination.nextPage })">
-                     <a href="main.do?currentPage=${pagination.nextPage }" aria-label="Next"> 
+                     <a href="BOARD_goboardlist.do?currentPage=${pagination.nextPage }" aria-label="Next"> 
                         <span aria-hidden="true">&nbsp;&gt;&nbsp;</span>
                      </a>
                   </li>
@@ -239,7 +239,7 @@ out : \꺽쇠%= 과 같은 역할, 출력
                <!-- >> : 10 페이지 앞으로-->
                <c:if test="${(pagination.currentPage +10) <= pagination.totalPage }">
                   <li onClick="paging(${pagination.nextPage })">
-                     <a href="main.do?currentPage=${pagination.currentPage +10 }" aria-label="Next"> 
+                     <a href="BOARD_goboardlist.do?currentPage=${pagination.currentPage +10 }" aria-label="Next"> 
                         <span aria-hidden="true">&gt;&gt;</span>
                      </a>
                   </li>
