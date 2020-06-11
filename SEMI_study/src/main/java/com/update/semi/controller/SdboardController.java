@@ -49,15 +49,12 @@ public class SdboardController {
 	
 	//보드 리스트로(페이징은 어떻게...?
 	@RequestMapping(value="/BOARD_goboardlist2.do")
-	public String goBoardList(HttpSession session, Model model, SdboardDto dto) {
-		//세션
-		SduserDto loginDto = (SduserDto)session.getAttribute("login");
+	public String goBoardList(Model model, SdboardDto dto) {
 		//리스트
 		List<SdboardDto> boardDto = sdboardBiz.boardList(dto);
 		logger.info("boardDto >>>"+boardDto);
-		logger.info("loginDto >>>"+loginDto);
 		model.addAttribute("boardDto", boardDto);
-		model.addAttribute("loginDto", loginDto);
+
 		
 		
 		return "board/boardlist";
@@ -79,33 +76,27 @@ public class SdboardController {
 	
 	//글작성 페이지
 	@RequestMapping(value="/BOARD_boardwrite.do")
-	public String goBoardWrite(HttpSession session, Model model) { //, @ModelAttribute("SdboardDto") SdboardDto dto 는 필요없을듯
+	public String goBoardWrite(Model model) { //, @ModelAttribute("SdboardDto") SdboardDto dto 는 필요없을듯
 		logger.info("[Controller]____goBoardWrite");
 		
-		//세션
-		SduserDto loginDto = (SduserDto)session.getAttribute("login");
 		//리스트
 //		List<SdboardDto> boardDto = sdboardBiz.boardList(dto);
-		logger.info("로그인 세션 들어가니? "+ loginDto);
+
 //		model.addAttribute("boardDto", boardDto);
-		model.addAttribute("loginDto", loginDto);
+
 				
 		return "board/boardwrite";
 	}
 	
 	//작성취소
 	@RequestMapping(value="/BOARD_writeCancel.do")
-	public String writeCancel(HttpSession session, Model model, SdboardDto dto ) {
+	public String writeCancel(Model model, SdboardDto dto) {
 		logger.info("[Controller]____writeCancel");
 		
-		//세션
-		SduserDto loginDto = (SduserDto)session.getAttribute("login");
 		//리스트
 		List<SdboardDto> boardDto = sdboardBiz.boardList(dto);
 				
 		model.addAttribute("boardDto", boardDto);
-		model.addAttribute("loginDto", loginDto);
-				
 		
 		return "board/boardlist";
 	}
@@ -127,7 +118,7 @@ public class SdboardController {
 
 	      // #1 유저id, 년, 월, 일 폴더 생성
 	      String id_ymdPath = "";
-	      SduserDto sduserDto = (SduserDto) session.getAttribute("login");
+	      SduserDto sduserDto = (SduserDto) session.getAttribute("sduserDto");
 	      if (sduserDto != null) {
 	         logger.info("sduserDto :" + sduserDto + "/n >>> 폴더를 생성하겠습니다.");
 	         id = sduserDto.getSduemail();
@@ -142,7 +133,8 @@ public class SdboardController {
 
 	      int j = 0;
 	      for (MultipartFile file : fileArr) {
-	         if (file.getSize() != 0) {// file은 항상 잇기 때문에 size가 0일때리를 봐야한다
+	         if (file.getSize() != 0) {// file은 항상 잇기 때문에 size가 0일때를 봐야한다.
+	        	 logger.info("[ajax] 파일이 들어오나? : >>>>  " + file.getSize());
 	            if (j == 0) {
 	               // 파일과 썸네일 생성 >> 썸네일이름[0], 원본파일이름[1] 배열로 리턴
 	               String[] tempName = UploadFileUtils.imgUploadAndThumb(imgUploadPath, file.getOriginalFilename(),
@@ -162,6 +154,8 @@ public class SdboardController {
 	                     + fileName;
 	            }
 	            j++;
+	         } else {
+	        	j++; 
 	         }
 	      }
 
@@ -203,14 +197,14 @@ public class SdboardController {
 	         throws IOException {
 	      logger.info("board Write Res >>>>>>>>>>>>>>>>>>>>> " + sdboardDto);
 
-	      SduserDto sduserDto = (SduserDto) session.getAttribute("member");
+	      SduserDto sduserDto = (SduserDto) session.getAttribute("sduserDto");
 	      String id = "";
 	      if (sduserDto != null) {
 	         id = sduserDto.getSduemail();
 	      }
 
 	      MultipartFile[] fileArr = sdboardDto.getFile();
-	      System.out.println("파일이 담겨있는 멀티파트파일"+fileArr);
+	      logger.info("파일이 담겨있는 멀티파트파일"+fileArr);
 	      String fileNames = "파일없음";
 
 	      logger.info("fileArr[0]에 뭐가 담겨있나요 ? "+ fileArr[0]); // 얘 타입에 맞춰서 if 다시 돌려보자.

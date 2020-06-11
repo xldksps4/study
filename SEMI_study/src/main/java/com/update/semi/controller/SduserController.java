@@ -142,12 +142,12 @@ public class SduserController {
 
 		logger.info("login ajax로 넘겨주는 controller : " + dto);
 
-		SduserDto loginDto = sduserBiz.login(dto);
-		logger.info(" loginDto : /////-->> " + loginDto);
+		SduserDto sduserDto = sduserBiz.login(dto);
+		logger.info(" sduserDto : /////-->> " + sduserDto);
 		boolean check = false;
 
-		if (loginDto != null) {
-			session.setAttribute("login", loginDto);
+		if (sduserDto != null) {
+			session.setAttribute("sduserDto", sduserDto);
 			check = true;
 		}
 
@@ -171,10 +171,10 @@ public class SduserController {
 	@RequestMapping(value = "/MAIN_main.do", method = { RequestMethod.POST, RequestMethod.GET })
 	public String goMain(HttpSession session) {
 		logger.info("[Controller]____goMain");
-		SduserDto login = (SduserDto) session.getAttribute("login");
-		logger.info("login session 확인 : "+ login);
+		SduserDto sduserDto = (SduserDto) session.getAttribute("sduserDto");
+		logger.info("login session 확인 : "+ sduserDto);
 		// 그냥들어옴
-		if (login == null) {
+		if (sduserDto == null) {
 			logger.info("[Empty_Data_First]__goMain");
 			return "main/main";
 		} else {
@@ -182,16 +182,16 @@ public class SduserController {
 			logger.info("[메인페이지] session 있음");
 			
 			// 회원가입 직후 첫 로그인 시 회원정보 수정페이지로.
-			String nickName = login.getSdunick();
+			String nickName = sduserDto.getSdunick();
 			if (nickName == null) {
 				logger.info("닉네임이 없습니다.");
-				session.setAttribute("login", login);
+				session.setAttribute("login", sduserDto);
 				// model 써서 페이지 전환해야할 수도 있음.
 				return "redirect:/MAIN_plusinfo.do";
 			} else {
 				logger.info("닉네임이 있어요!!.");
-				session.setAttribute("login", login);
-				logger.info("login세션의 이미지 경로 >>>> " + login.getSduimgpath());
+				session.setAttribute("login", sduserDto);
+				logger.info("login세션의 이미지 경로 >>>> " + sduserDto.getSduimgpath());
 				return "main/main";
 			}
 			
@@ -214,14 +214,14 @@ public class SduserController {
 		logger.info("login:" + snslogin);
 
 		if (onelogin != null) {
-			session.setAttribute("login", snslogin);
+			session.setAttribute("sduserDto", snslogin);
 			return "main/main";
 
 		} else {
 			int snsjoin = sduserBiz.insertUser(dto);
 			logger.info("snsjoin이 0이 아니길... : " + snsjoin);
 			if (snsjoin > 0) {
-				session.setAttribute("login", snslogin);
+				session.setAttribute("sduserDto", snslogin);
 				return "redirect : MAIN_main.do";
 			} else {
 				return "redirect : SDUSER_login.do";
@@ -231,11 +231,11 @@ public class SduserController {
 
 	// 회원정보 수정 페이지
 	@RequestMapping(value = "/MAIN_plusinfo.do", method = RequestMethod.GET)
-	public String goPlusinfo(Model model, HttpSession login) {
-		logger.info("[Controller]__goPlustinfo" + login);
+	public String goPlusinfo(Model model, HttpSession session) {
+		logger.info("[Controller]__goPlustinfo" + session);
 
 		// login session
-		SduserDto sduserDto = (SduserDto) login.getAttribute("login");
+		SduserDto sduserDto = (SduserDto) session.getAttribute("sduserDto");
 		model.addAttribute("sduserDto", sduserDto);
 		return "main/plusinfo";
 
@@ -243,7 +243,7 @@ public class SduserController {
 
 	// 회원정보 수정 res
 	@RequestMapping(value = "/SDUSER_infoUpdate.do")
-	public String infoUpdate(@ModelAttribute("SduserDto") @Valid SduserDto sduserDto, HttpSession session, Model model,
+	public String infoUpdate(@ModelAttribute("sduserDto") @Valid SduserDto sduserDto, HttpSession session, Model model,
 			BindingResult result) {
 
 		// 하이버네이트유효성검사
@@ -274,10 +274,10 @@ public class SduserController {
 			logger.info("[DB]프로필 업데이트 성공여부. updateRes : " + updateRes);  // <<<<<<<<<<<성공, 1
 			if (updateRes > 0) {
 				logger.info("[Controller]____infoUpdate 성공");
-				SduserDto login = sduserBiz.selectOne(sduserDto.getSduemail());
+				SduserDto sduserDtoRes = sduserBiz.selectOne(sduserDto.getSduemail());
 
-				session.setAttribute("login", login);
-				logger.info("성공 후 화면 전환 직전 값 확인" + login);	// <<<<<<<<<<<<<얘는 null
+				session.setAttribute("sduserDto", sduserDtoRes);
+				logger.info("성공 후 화면 전환 직전 값 확인" + sduserDto);	// <<<<<<<<<<<<<얘는 null
 				return "redirect:/MAIN_main.do";
 			}
 

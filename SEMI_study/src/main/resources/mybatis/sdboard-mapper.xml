@@ -67,15 +67,15 @@
 		FROM SDBOARD
 		<trim prefix="WHERE" prefixOverrides="AND">
 			<if
-				test="category == 'sdbtitle' and keyword != null and keyword != ''">
+				test="category == 'title' and keyword != null and keyword != ''">
 				AND SDBTITLE LIKE ('%' || #{keyword} || '%')
 			</if>
 			<if
-				test="category == 'sdbcontent' and keyword != null and keyword != ''">
+				test="category == 'content' and keyword != null and keyword != ''">
 				AND SDBCONTENT LIKE ('%' || #{keyword} || '%')
 			</if>
 			<if
-				test="category == 'sduemail' and keyword != null and keyword != ''">
+				test="category == 'name' and keyword != null and keyword != ''">
 				AND SDUEMAIL LIKE ('%' || #{keyword} || '%')
 			</if>
 		</trim>
@@ -91,12 +91,6 @@
 		SDBTHUMBNAIL=#{sdbthumbnail}
 	</select>
 
-	<insert id="insertwrite" parameterType="sdboardDto">
-		insert into
-		SDBOARD(SDBSEQ,SDBTABNO,SDBGROUPSEQ,SDBGROUPNO,SDBTITLE,SDUEMAIL,SDBCONTENT,SDBREGDATE,SDBTHUMBNAIL,SDBIMGPATH,SDBFILENAME,SDBFILEPATH)
-		values(SDBSEQ.NEXTVAL,1,1,1,#{sdbtitle},#{sduemail},#{sdbcontent},SYSDATE,#{sdbthumbnail},#{sdbimgpath},#{sdbfilename},#{sdbfilepath})
-	</insert>
-
 	<insert id="insertImg" parameterType="sdboardDto">
 		insert into SDBOARD(SDBSEQ,SDUEMAIL,SDBTHUMBNAIL,SDBIMGPATH)
 		values(SDBSEQ.NEXTVAL,#{sduemail},#{sdbthumbnail},#{sdbimgpath})
@@ -104,8 +98,8 @@
 
 	<insert id="insertBoardNoImg" parameterType="sdboardDto">
 		insert into
-		SDBOARD(SDBSEQ,SDBTITLE,SDUEMAIL,SDBCONTENT,SDBREGDATE,SDBTHUMBNAIL,SDBFILENAME,SDBFILEPATH)
-		values(SDBSEQ.NEXTVAL,#{sdbtitle},#{sduemail},#{sdbcontent},SYSDATE,#{sdbthumbnail},#{sdbfilename},#{sdbfilepath})
+		SDBOARD(SDBSEQ,SDBTITLE,SDUEMAIL,SDBCONTENT,SDBREGDATE,SDBTHUMBNAIL,SDBFILEPATH)
+		values(SDBSEQ.NEXTVAL,#{sdbtitle},#{sduemail},#{sdbcontent},SYSDATE,#{sdbthumbnail},#{sdbfilepath})
 	</insert>
 
 	<update id="updateBoardYesImg" parameterType="sdboardDto">

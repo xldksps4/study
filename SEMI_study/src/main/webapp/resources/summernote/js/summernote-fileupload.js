@@ -1,5 +1,5 @@
 /**
-* 부트트스랩에서 사용할 이미지 파일 업로드
+* 부트스트랩에서 사용할 이미지 파일 업로드
 */
 function uploadSummernoteImageFile(file, editor) {
    /**
