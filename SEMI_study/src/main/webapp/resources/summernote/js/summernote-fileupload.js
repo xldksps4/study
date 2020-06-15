@@ -23,7 +23,7 @@ function uploadSummernoteImageFile(file, editor) {
          console.log("3 : " + output.img)
            //항상 업로드된 파일의 url이 있어야 한다.
          //editor.insertImage(welEditable, "");
-         $(editor).summernote('insertImage', "/semi/resources/img/board/sample01.jpg");
+         $(editor).summernote('insertImage', "/semi/resources/img/board/sample0122222.jpg");
       }
    });
 }
@@ -213,6 +213,8 @@ function AjaxFileUpload(){   // fileList 파일 배열
          let content = document.getElementsByName("sdbcontent")[0]
          content.value = summernoteContent.innerHTML
          document.getElementById("submit").click()
+         console.log("유효성검사중입니다____summernoteContent >>> " + summernoteContent)
+         console.log("유효성검사중입니다____content >>>"+content)
       }
    }
 }

@@ -51,28 +51,9 @@ $(function() {
 });
 	
 </script>
-<style type="text/css">
-@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
 
-* {
-	font-family: 'Jeju Gothic', cursive;
-}
-
-div {
-	width: 50%;
-	height: auto;
-	margin: 50px 25%;
-	align-self: center;
-}
-
-.button:hover {
-	cursor: pointer;
-}
-</style>
 </head>
 <body>
-
-	<%-- 	<%@ include file="./form/mainPage.jsp"%> --%>
 
 	<%
 		String useremail = request.getParameter("useremail");
@@ -83,14 +64,14 @@ div {
 		<div></div>
 		<div></div>
 	</div>
-	<div id="wrap_register_form">
+	<div id="wrap_register_form" class="container">
 		<div id="wrap_register_header"></div>
 		<div></div>
 		<div>
 			<h1>회원가입</h1>
 			<br /> <br />
 		</div>
-		<div id="wrap_regiter_joinform" class="container">
+		<div id="wrap_regiter_joinform">
 
 			<!-- 회원가입 form -->
 			<form action="SDUSER_userRegist.do" method="post" name="regist"

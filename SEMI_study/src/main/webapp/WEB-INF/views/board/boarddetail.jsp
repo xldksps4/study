@@ -54,8 +54,8 @@
             <div id="cdetail">
                  <input type="text" id="title" name="sdbtitle" value="${boardDto.sdbtitle }" readonly="readonly"/>
                <br>
-               <div id="cdetail">
-                  <span><img src="${login.sduimgpath }" onerror="this.src='/semi/resources/img/board/sample01.jpg';"></span><span>${boardDto.sdbfilename }</span>
+               <div id="cdetail"> <!-- onerror="this.src='/semi/resources/img/board/sample01.jpg';" -->
+                  <span><img src="${login.sduimgpath }"></span><span>${boardDto.sdbfilename }</span>
                   <span id="fileDown">
                      <c:if test="${empty boardDto.sdbfilepath }">
                         첨부파일 없음

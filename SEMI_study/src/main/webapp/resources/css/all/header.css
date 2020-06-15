@@ -51,80 +51,12 @@ html, body {
 	height: 100px;
 }
 
-
-
-
-.nav {
-	height: 60px;
-	width: 100%;
-	background-color: white;
-	position: sticky;
-	top: 0;
-	z-index: 1;
+#menu2 > span > img{
+	width : 100px;
+	height : 100px;
 }
 
-.nav>div {
-	width: 80%;
-	margin-left: 11%;
-	height: 50px;
-	overflow: hidden;
-	float: left;
-	text-align: center;
-	background: white;
-}
-
-.nav>div>ul {
-	position: relative;
-	top: 0px;
-	padding-left: 0;
-	float: left;
-	width:33%;
-	margin: 0;
-	height: 160px;
-	display: inline-block;
-	list-style: none;
-	vertical-align: top;
-	font-family: 'Jeju Gothic', cursive;
-	background: white;
-}
-
-
-.nav ul li p{
-	color: rgb(51, 85, 139);
-	height: 20px;
-	letter-spacing: 2px;
-	font-size: 20px;
-}
-
-.nav ul li p:hover{
-	color: darkviolet;
-	cursor: default;
-}
-
-.nav ul li a {
-	position: relative;
-	top: 10px;
-	background: white;
-	width: 31%;
-	text-decoration: none;
-	color: skyblue;
-	line-height: 20px;
-	letter-spacing: 2px;
-	font-size: 15px;
-}
-
-.nav ul li a:hover{
-	color: darkviolet;
-	coursor: default;
-}
-
-.nav div:hover {
-	overflow: visible;
-	background: white;
-	display: inline-block;
-	z-index: 1;
-}
-
-#userPw{
-	font-family: serif;
+p {
+	font-style: italic;
+	font-weight: bold;
 }

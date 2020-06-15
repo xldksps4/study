@@ -15,12 +15,11 @@
 <body>
 	
 	<c:choose>
-		<c:when test="${empty login }">
+		<c:when test="${empty sduserDto }">
 			<%@ include file="../all/header_login.jsp" %>
 		</c:when>
 		<c:otherwise>
-			<%@ include file="../all/header_logout.jsp" %>
-			
+			<%@ include file="../all/header_logout.jsp" %>	
 		</c:otherwise>
 	</c:choose>
 	

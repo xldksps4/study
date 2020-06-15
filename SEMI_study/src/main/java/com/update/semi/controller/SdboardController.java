@@ -106,6 +106,7 @@ public class SdboardController {
 	   @RequestMapping(value = "/BOARD_AjaxFileUpload.do")
 	   public Map<String, Object> AjaxFileUpload(@ModelAttribute("fileArr") MultipartFile[] fileArr, SdboardDto sdboardDto,
 	         HttpSession session) throws IOException {
+		  logger.info("[Controller]____BOARD_AjaxFileUpload : sdboardDto >>>  " + sdboardDto + " // fileArr >>> " + fileArr);
 	      logger.info("[ajax] Ajax File Uplod : >>>>>>>>>>>>>>>>>>>>>  " + fileArr[0].getOriginalFilename());
 	      logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + fileArr.length);
 	      
@@ -120,10 +121,13 @@ public class SdboardController {
 	      String id_ymdPath = "";
 	      SduserDto sduserDto = (SduserDto) session.getAttribute("sduserDto");
 	      if (sduserDto != null) {
-	         logger.info("sduserDto :" + sduserDto + "/n >>> 폴더를 생성하겠습니다.");
+//	      if (sduserDto.getSdufileupload() != null || sduserDto.getSdufileupload().getSize() != 0 ) {
+	      logger.info("sduserDto :" + sduserDto + "/n >>> 폴더를 생성하겠습니다.");
 	         id = sduserDto.getSduemail();
 	         // id_ymdPath 파일 경로 설정 >>> /유져id/년/월/일
-	         id_ymdPath = UploadFileUtils.calcPath(imgUploadPath, id);
+	    	 id_ymdPath = UploadFileUtils.calcPath(imgUploadPath, id);
+	      } else{
+	    	  logger.info("폴더를 생성하지 않겠습니다. ");
 	      }
 
 	      // #2 파일 저장후 성공시 "view에서 불러올 경로 + 파일명" 배열에 담는다[썸내일 제외 원본이미지], 썸내일은 따로 "view에서
@@ -133,6 +137,7 @@ public class SdboardController {
 
 	      int j = 0;
 	      for (MultipartFile file : fileArr) {
+//	    	  id_ymdPath = UploadFileUtils.calcPath(imgUploadPath, id);
 	         if (file.getSize() != 0) {// file은 항상 잇기 때문에 size가 0일때를 봐야한다.
 	        	 logger.info("[ajax] 파일이 들어오나? : >>>>  " + file.getSize());
 	            if (j == 0) {
@@ -154,8 +159,6 @@ public class SdboardController {
 	                     + fileName;
 	            }
 	            j++;
-	         } else {
-	        	j++; 
 	         }
 	      }
 
@@ -196,6 +199,9 @@ public class SdboardController {
 	   public String boardWriteRes(Model model, @ModelAttribute SdboardDto sdboardDto, HttpSession session)
 	         throws IOException {
 	      logger.info("board Write Res >>>>>>>>>>>>>>>>>>>>> " + sdboardDto);
+	      logger.info("file toString: >>>>>>>>>>>>>>>>>>>>>  " + sdboardDto.getFile().toString());
+	      logger.info("file length : >>>>>>>>>>>>>>>>>>>>>  " + sdboardDto.getFile().length);
+	      logger.info("file hashcode : >>>>>>>>>>>>>>>>>>>>>  " + sdboardDto.getFile().hashCode());
 
 	      SduserDto sduserDto = (SduserDto) session.getAttribute("sduserDto");
 	      String id = "";
@@ -207,10 +213,11 @@ public class SdboardController {
 	      logger.info("파일이 담겨있는 멀티파트파일"+fileArr);
 	      String fileNames = "파일없음";
 
-	      logger.info("fileArr[0]에 뭐가 담겨있나요 ? "+ fileArr[0]); // 얘 타입에 맞춰서 if 다시 돌려보자.
+	      logger.info("fileArr[0]에 뭐가 담겨있나요 ? "+ fileArr[0].getSize()); // 얘 타입에 맞춰서 if 다시 돌려보자.
+	      //logger.info("fileArr[1]에 뭐가 담겨있나요 ? "+ fileArr[1].getOriginalFilename());
 	      
 	      // 파일 업로드
-	      if(fileArr[0].getSize() != 0 || fileArr[0].toString() != null) {
+	      if(fileArr[0].getSize() != 0 && fileArr[0].getOriginalFilename() != null) {
 	         System.out.println("1.파일이 담겨 있음을 확인 ");
 	         // 게시판 첨부파일 업로드~
 	         // 폴더 생성 >> fileUploadPath + /id/yyyy/mm/dd/
@@ -229,7 +236,7 @@ public class SdboardController {
 
 	      // id, fileNames(업로드한 파일명) dto 추가
 	      sdboardDto.setSduemail(id);
-	      sdboardDto.setSdbfilepath(fileNames);     // 첨부된 파일이 없다면 "" DB에 들어감
+//	      sdboardDto.setSdbfilepath(fileNames);     // 첨부된 파일이 없다면 "" DB에 들어감
 	      System.out.println("3.sdboarddto에 새로 담은 값이 들어 갔는지 보자 "+sdboardDto);
 	      // DB 추가 = 업로드한 이미지 x , 업로드한 파일 o
 	      if (sdboardDto.getSdbseq() == 0) {
@@ -300,6 +307,7 @@ public class SdboardController {
 	      Map<String, Object> output = new HashMap<String, Object>();
 	      
 	      sdboardDto = sdboardBiz.selectDetail(sdboardDto);
+	     logger.info("[Controller]____go fileDown >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>: " +  sdboardDto);
 	      if(sdboardDto.getSdbfilepath() != null) {
 	         String fileFullNames = sdboardDto.getSdbfilepath(); 
 	         if(fileFullNames.contains("??")) {

@@ -1,0 +1,16 @@
+@import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+
+* {
+	font-family: 'Jeju Gothic', cursive;
+}
+
+div {
+	width: 50%;
+	height: auto;
+	margin: 50px 25%;
+	align-self: center;
+}
+
+.button:hover {
+	cursor: pointer;
+}

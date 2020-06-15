@@ -15,7 +15,7 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <!-- css -->
-<%-- <link	href="${pageContext.request.contextPath}/resource/css/all/header.css"	rel="stylesheet" type="text/css"> --%>
+<link	href="${pageContext.request.contextPath}/resources/css/all/header.css"	rel="stylesheet" type="text/css">
 
 <!-- login package -->
 <script type="text/javascript"
@@ -54,7 +54,7 @@
 			<div class="col-lg-4">
 				<div id="menu2">
 					<span><img id="img-preview-notorder-haveimg" class ="img-circle" alt="이미지없음"
-						src="${login.sduimgpath }"> </span> <span>|</span> <span><a
+						src="${sduserDto.sduimgpath }"> </span> <span>|</span> <span><a
 						href="/semi/MAIN_plusinfo.do">마이페이지</a></span> <span>|</span> <span><a
 						href="/semi/SDUSER_logout.do">로그아웃</a></span>
 				</div>
@@ -62,8 +62,8 @@
 		</div>
 		<div class="row">
 			<!-- 메뉴바 -->
-			<div class="col-lg-3"></div>
-			<div class="col-lg-6">
+			<div class="col-lg-4"></div>
+			<div class="col-lg-4">
 				<div class="nav">
 					<div id="menu">
 						<div></div>
@@ -71,7 +71,7 @@
 							<ul>
 								<li><p>게시판</p></li>
 								<li><a href="/semi/BOARD_goboardlist.do">일반 게시판</a></li>
-
+								<li><a href="https://velog.io/@xldksps4">velog</a></li>
 								<li></li>
 							</ul>
 						</div>
@@ -80,7 +80,7 @@
 				</div>
 
 			</div>
-			<div class="col-lg-3">
+			<div class="col-lg-4">
 				<div>
 					<ul>
 						<li><p>소개</p></li>

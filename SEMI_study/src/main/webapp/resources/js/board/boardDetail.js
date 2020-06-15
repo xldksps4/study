@@ -45,11 +45,14 @@ function fileDetail(boardNo){
       success : function(output) {
          if(output.msg == "success"){
             let fileName = output.fileName
+
+            console.log("확인!!!!!!!!!!!!!!!!!! : " + fileName.length)
+            
             let modal_body = document.getElementsByClassName("modal-body")[0]
             
-            if(typeof fileName == 'string'){
+            if(typeof fileName === 'string'){
                createCheckbox(fileName)
-            } else if(typeof fileName == 'object'){
+            } else if(typeof fileName === 'object'){
                let nameArr = output.fileName;
                for(let i = 0; i<nameArr.length ;i++ ){
                      createCheckbox(fileName[i])

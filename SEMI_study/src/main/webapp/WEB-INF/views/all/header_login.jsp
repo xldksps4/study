@@ -49,13 +49,13 @@
 			<div class="col-lg-4">
 				<div id="logo">
 					<img class="center-block" alt="logo"
-						src="${pageContext.request.contextPath}/resources/IMG/logo.png"
+						src="${pageContext.request.contextPath}/resources/img/all/logo.png"
 						onclick="location.href='MAIN_main.do'">
 				</div>
 			</div>
 			<div class="col-lg-4">
 				<div id="menu2">
-					<span>|</span> <span><a href="/semi/SDUSER_userMain.do">마이페이지</a></span>
+					<span>|</span> <span><a href="/semi/SDUSER_registform.do">회원가입</a></span>
 					<span>|</span> <span><a href="/semi/SDUSER_login.do">로그인</a></span>
 				</div>
 			</div>
@@ -64,25 +64,27 @@
 
 		<div class="row">
 			<!-- 메뉴바 -->
-			<div class="col-lg-3"></div>
-			<div class="col-lg-6">
+			<div class="col-lg-4">
 				<div class="nav">
 					<div id="menu">
-						<ul>
-							<li><p>게시판</p></li>
-							<li><a href="/semi/BOARD_commonboard.do">일반 게시판</a></li>
-							<li><a href="/semi/BOARD_photoboard.do">사진 게시판</a></li>
-							<li><a href="/semi/BOARD_commonboard.do">공란</a></li>
-							<li></li>
-						</ul>
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-3">
-				<div>
-					<ul>
-						<li><p>소개</p></li>
-					</ul>
+			<div class="col-lg-4">
+				<div class="nav">
+					<div id="menu">
+						<p>게시판</p>
+						<span><a href="/semi/BOARD_goboardlist.do">일반 게시판</a></span><br/>
+						<span><a href="https://velog.io/@xldksps4">velog</a></span><br/>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="nav">
+					<div>
+						<p>기타</p>
+						<span>소개</span><br/>
+					</div>
 				</div>
 			</div>
 

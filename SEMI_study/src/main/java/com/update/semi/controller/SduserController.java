@@ -143,7 +143,7 @@ public class SduserController {
 		logger.info("login ajax로 넘겨주는 controller : " + dto);
 
 		SduserDto sduserDto = sduserBiz.login(dto);
-		logger.info(" sduserDto : /////-->> " + sduserDto);
+		logger.info(" sduserDto : >>> " + sduserDto);
 		boolean check = false;
 
 		if (sduserDto != null) {
@@ -185,12 +185,12 @@ public class SduserController {
 			String nickName = sduserDto.getSdunick();
 			if (nickName == null) {
 				logger.info("닉네임이 없습니다.");
-				session.setAttribute("login", sduserDto);
+				session.setAttribute("sduserDto", sduserDto);
 				// model 써서 페이지 전환해야할 수도 있음.
 				return "redirect:/MAIN_plusinfo.do";
 			} else {
 				logger.info("닉네임이 있어요!!.");
-				session.setAttribute("login", sduserDto);
+				session.setAttribute("sduserDto", sduserDto);
 				logger.info("login세션의 이미지 경로 >>>> " + sduserDto.getSduimgpath());
 				return "main/main";
 			}
