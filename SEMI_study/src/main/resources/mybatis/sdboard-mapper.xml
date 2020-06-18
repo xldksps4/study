@@ -27,6 +27,11 @@
 		select * from SDBOARD
 	</select>
 
+	<select id="selectOne" resultMap="sduserMap">
+		select * from SDBOARD where SDBSEQ = #{sdbseq}
+	</select>
+
+
 	<select id="selectDetail" resultMap="sdboardMap">
 		select * from SDBOARD where SDBSEQ = #{sdbseq}
 	</select>
@@ -106,6 +111,18 @@
 		update SDBOARD set
 		SDBTITLE=#{sdbtitle},SDBCONTENT=#{sdbcontent},SDBREGDATE=SYSDATE,SDBFILENAME=#{sdbfilename},SDBFILEPATH=#{sdbfilepath}
 		where SDBSEQ =#{sdbseq}
+	</update>
+	
+	<update id="updateImg" parameterType="sdboardDto">
+		update SDBOARD set 
+		SDBTHUMBNAIL=#{sdbthumbnail}, SDBIMGPATH=#{sdbimgpath}
+		where SDBSEQ=#{sdbseq} and SDUEMAIL=#{sduemail}
+	</update>
+
+	<update id="updateNoImgBoard" parameterType="sdboardDto">
+		update SDBOARD set 
+		SDBSEQ=#{sdbseq}, SDBTITLE=#{sdbtitle}, SDBCONTENT=#{sdbcontent}, SDBREGDATE=SYSDATE, SDBTHUMBNAIL=null, SDBIMGPATH=null, SDBFILEPATH=#{sdbfilepath}
+		where SDBSEQ=#{sdbseq} and SDUEMAIL=#{sduemail}
 	</update>
 
 	<update id="updatewrite" parameterType="sdboardDto">

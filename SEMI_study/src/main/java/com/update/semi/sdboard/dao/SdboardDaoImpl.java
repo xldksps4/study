@@ -99,6 +99,17 @@ public class SdboardDaoImpl implements SdboardDao{
 		
 		return result;
 	}
+	
+	@Override
+	public SdboardDto selectOne(int sdbseq) {
+		logger.info("[DaoImpl]____selectOne, sdbseq >>> : " + sdbseq);
+		SdboardDto result = null;
+		result = sqlSession.selectOne(NAMESPACE+"selectOne", sdbseq);
+		
+		
+		return result;
+	}
+
 
 	/* 페이징 */
 	
@@ -177,6 +188,28 @@ public class SdboardDaoImpl implements SdboardDao{
 	    return res;
 
 	}
+	//이미지 수정
+	@Override
+	public int updateImg(SdboardDto dto) {
+		logger.info("[DaoImpl]____updateImg, dto >>> : " + dto);
+		int res = 0;
+		res = sqlSession.update(NAMESPACE+"updateImg", dto);
+		logger.info("[DaoImpl]____updateImg, res >>> : " + res);
+		
+		return res;
+	}
+
+	// content 안에 img태그가 없을 경우 >>> DB 이미지 썸내일 칼럼 삭제
+	@Override
+	public int updateNoImgBoard(SdboardDto dto) {
+		logger.info("[DaoImpl]____updateNoImgBoard, dto >>> : " + dto);
+		int res = 0;
+		res = sqlSession.update(NAMESPACE+"updateNoImgBoard", dto);
+		logger.info("[DaoImpl]____updateNoImgBoard, res >>> : " + res);
+		
+		return res;
+	}
+
 
 
 	/* INSERT / UPDATE / DELETE */
@@ -233,6 +266,8 @@ public class SdboardDaoImpl implements SdboardDao{
 		logger.info("[DaoImpl]____replyDelete, dto >>> : " + dto);
 		return 0;
 	}
+
+
 
 
 

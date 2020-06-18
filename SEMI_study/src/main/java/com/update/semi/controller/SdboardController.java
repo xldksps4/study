@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.update.semi.common.util.DownloadFileUtils;
+import com.update.semi.common.util.FileTakeAtTheUtilFolder;
 import com.update.semi.common.util.OraclePagination;
 import com.update.semi.common.util.UploadFileUtils;
 import com.update.semi.sdboard.biz.SdboardBiz;
@@ -33,6 +34,7 @@ import com.update.semi.sdboard.dto.SdreplyDto;
 import com.update.semi.sduser.dto.SduserDto;
 
 @Controller
+//RequestMapping("/board")
 public class SdboardController {
 
 	private static final Logger logger = LoggerFactory.getLogger(SdboardController.class);
@@ -40,7 +42,7 @@ public class SdboardController {
 	@Autowired
 	private SdboardBiz sdboardBiz;
 	
-	@Resource(name = "sdbimguploadpath")	  // 이미지 경로
+	@Resource(name = "sdbimguploadpath")  // 이미지 경로
 	private String imgUploadPath;	
 	   
 	@Resource(name = "sdbfileuploadpath") // 실제 파일 경로
@@ -418,6 +420,186 @@ public class SdboardController {
 	      return "board/boardlist";
 	   }
 	
-	
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   // 수정하기 페이지
+	   @RequestMapping(value="/BOARD_boardupdate.do", method = RequestMethod.GET)
+	   public String update(Model model, @RequestParam("sdbseq") int sdbseq) {
+	   logger.info("board update page go sdbseq : " + sdbseq);
+	      SdboardDto boardDto = sdboardBiz.selectOne(sdbseq);
+	      model.addAttribute("board", boardDto);
+	      
+	      return "board/BOARD_boardupdate";
+	   }
+	   
+	   // 수정하기 이미지 업로드
+	   @RequestMapping(value="/AjaxFileUpdate.do", method = RequestMethod.POST)
+	   @ResponseBody
+	   public Map<String, Object> AjaxFileUpdate(@ModelAttribute("fileArr") MultipartFile[] fileArr, @ModelAttribute("sdbseq") int sdbseq, SdboardDto sdboardDto, HttpSession session) throws IOException {
+	      logger.info("[ajax] Ajax File Update : >>>>>>>>>>>>>>>>>>>>> fileArr : " + fileArr + " sdbseq : " + sdbseq);
+	      logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + fileArr.length);
+	      Map<String, Object> output = new HashMap<String, Object>();
+	      output.put("msg", "fail");      // 디폴트 fail
+	      
+	      // 유저 id
+	      String id = "";
+
+	      // #1 유저id, 년, 월, 일 폴더 생성
+	      String id_ymdPath = "";
+	      SduserDto sduserDto = (SduserDto) session.getAttribute("sduserDto");
+	      if(sduserDto != null) {
+	         id = sduserDto.getSduemail();
+	         // id_ymdPath 파일 경로 설정 >>> 유져id/년/월/일 
+	         id_ymdPath = UploadFileUtils.calcPath(imgUploadPath, id);
+	      }
+
+	      // #2 파일 저장후 성공시 "view에서 불러올 경로 + 파일명" 배열에 담는다[썸내일 제외 원본이미지], 썸내일은 따로 "view에서 불러올 경로 + 파일명"을 String에 담는다. >> 향후 실패 처리시를 만들어야함
+	      String[] imgNameArr = new String[fileArr.length];
+	      String thumbImgName = "";
+
+	      int j = 0;
+	      for(MultipartFile file : fileArr) {
+	         if(file.getSize() != 0) { // 파일이 있다면
+	            if(j == 0) {
+	               // 파일과 썸내일 생성 >> 썸내일이름[0], 원본파일이름[1] 배열로 리턴
+	               String[] tempName =  UploadFileUtils.imgUploadAndThumb(imgUploadPath, file.getOriginalFilename(), file.getBytes(), id_ymdPath);
+	               // DB에 저장할 경로 : /update/resources/img/board/img + / + 유져id/년/월/일 + /s/ + / 썸내일 파일명 
+	               thumbImgName = "/update/resources/img/board/img" + File.separator + id_ymdPath + "/s/"  + tempName[0];  
+	               // DB에 저장할 경로 : /update/resources/img/board/img + / + 유져id/년/월/일 + / + 파일명 
+	               imgNameArr[0] = "/update/resources/img/board/img" + File.separator + id_ymdPath + File.separator + tempName[1];
+	               
+	            } else {
+	               // 파일 생성
+	               String fileName = UploadFileUtils.fileUpload(imgUploadPath, file.getOriginalFilename(), file.getBytes(), id_ymdPath);
+	               // DB에 저장할 경로 : /update/resources/img/board/img + / + 유져id/년/월/일 + / + 파일명 
+	               imgNameArr[j] = "/update/resources/img/board/img" + File.separator + id_ymdPath + File.separator + fileName;
+	            }
+	            j++;
+	         } 
+	      }
+	      // #3 DB저장 (id, 시퀀스_pk, 썸네일이미지명, 이미지명) 저장
+	      sdboardDto.setSduemail(id);
+	      sdboardDto.setSdbseq(sdbseq);
+	      sdboardDto.setSdbthumbnail(thumbImgName);
+	      String imgNames = "";
+	      for(int i = 0; i<imgNameArr.length; i++) {
+	         if(i == 0) {
+	            imgNames = imgNameArr[0];
+	         } else {
+	            imgNames = imgNames + "??" + imgNameArr[i];
+	         }
+	      }
+	      sdboardDto.setSdbimgpath(imgNames);
+	      
+	      // **수정전 이전 Dto 가져오기
+	      SdboardDto oldBoardDto = sdboardBiz.selectOne(sdbseq);
+	      
+	      int res = sdboardBiz.updateImg(sdboardDto);
+	      
+	      if(res > 0) {
+	         logger.info("Board img 수정 성공");
+	         
+	         // #4  **기존에 있던 이미지 삭제
+	         logger.info("board Update Res >>>>>>>>>>>>>>>> 수정후 글의 이전 이미지 모두 삭제");
+	         String[] formerImgPathArr = oldBoardDto.getSdbimgpath().split("\\?\\?");   // .split() : 결과를 배열로 리턴한다. 문자열을 나눌 기준이 없을 경우 문자열을 그대로 배열의 0번지에 넣어 리턴한다.(즉 리턴되는 배열의 크기는  항상 1이상이다.)   
+	                                   
+	         // **파일 삭제 코드 : while문을 사용하여 파일삭제가 실패한 경우에 재실행 코드 구현
+	         int i = 0;
+	         while(i<formerImgPathArr.length) {												//C:\mygit\study\SEMI_study\src\main\webapp  C:\\git\\semi\\SEMI_spring\\src\\main\\webapp\\
+	            String fileName = FileTakeAtTheUtilFolder.toAbsolutePath(formerImgPathArr[i], "C:\\mygit\\study\\SEMI_spring\\src\\main\\webapp\\", 6);	 //6은 seperate + 프로젝트명 + seperate
+	            if(FileTakeAtTheUtilFolder.fileDelete(fileName)) {
+	               i++;   // 파일 삭제 성공인 경우에만 i++ 실행
+	            }
+	         }
+	         // #5 여기까지 성공 헀다면 output를 만들어 보낸다 
+	         output.put("imgSrcArr", imgNameArr);
+	         output.put("msg", "success");
+	      }      
+	      logger.info("[AjaxFileUpdate.do] >>>>>>>>>>>>>>>>>>>>>>> output : " + output);
+	      return output;
+	   }
+	   
+	   
+	   @RequestMapping(value="/updateRes", method = RequestMethod.POST)
+	   public String updateBoard(Model model, @ModelAttribute SdboardDto sdboardDto, HttpSession session) throws IOException {
+	      logger.info("board Update Res >>>>>>>>>>>>>>>>>>>>> " + sdboardDto);
+	      
+	      // #1 세션에서 id 찾기
+	      SduserDto sduserDto = (SduserDto) session.getAttribute("sduserDto");
+	      String id = "";
+	      if(sduserDto != null) {
+	         id = sduserDto.getSduemail();
+	      } 
+	      
+	      // #2 첨부파일 업로드
+	      MultipartFile[] fileArr = sdboardDto.getFile();
+	      String fileNames = "";  
+	      
+	      if (fileArr[0].getSize() != 0) {   // 들어온 파일이 있다면
+	         //폴더 생성 >> fileUploadPath + /id/yyyy/mm/dd/ >> 있으면 pass
+	         String id_ymdPath = UploadFileUtils.calcPath(fileUploadPath, id);
+	         
+	         //파일 업로드
+	         for(int i = 0; i<fileArr.length; i++) {
+	            if (i == 0) {
+	               String temp = UploadFileUtils.fileUpload(fileUploadPath, fileArr[i].getOriginalFilename(),  fileArr[i].getBytes(), id_ymdPath);
+	               fileNames = fileUploadPath + id_ymdPath + File.separator + temp;
+	            } else {
+	               String temp = UploadFileUtils.fileUpload(fileUploadPath, fileArr[i].getOriginalFilename(),  fileArr[i].getBytes(), id_ymdPath);
+	               fileNames = fileNames + "??" + fileUploadPath + id_ymdPath + File.separator + temp;
+	            }
+	         }
+	      }
+	      
+	      // id, fileNames(업로드한 파일명) dto 추가
+	      sdboardDto.setSduemail(id);
+	      if(sdboardDto.getSdbfilepath() == null) {
+	         // 업로드된 첨부 파일이 없다면 기존 경로를 사용
+	         SdboardDto temp = sdboardBiz.selectOne(sdboardDto.getSdbseq());
+	         sdboardDto.setSdbfilepath(temp.getSdbfilepath());
+	      } else {
+	         // 업로드된 첨부 파일이 있다면 업로드한 파일 경로를 새로 추가
+	    	  sdboardDto.setSdbfilepath(fileNames);
+	      }
+	      
+	      // content 안에 img태그가 없을 경우 >>> DB 이미지 썸내일 칼럼 삭제
+	      if(!FileTakeAtTheUtilFolder.isImgTag(sdboardDto.getSdbcontent())) {
+	         int noImgUpdateRes = sdboardBiz.updateNoImgBoard(sdboardDto);
+	         if(noImgUpdateRes > 0) {
+	            logger.info("board Update Res >>>>>>>>>>>>>>>> [No img 수정 성공] Board update success");
+	            return "redirect:/BOARD_boarddetail.do?sdbseq=" + sdboardDto.getSdbseq();
+	         } else {
+	            logger.info("board Update Res >>>>>>>>>>>>>>>> [No img 수정 성공] Board update fail");
+	            return "redirect:/BOARD_goboardlist.do";
+	         }
+	      } else {
+	         // 이미지 있을경우 DB 수정 >> 이전 이미지 파일 삭제 로직 추가
+	         SdboardDto oldBoardDto = sdboardBiz.selectOne(sdboardDto.getSdbseq());
+	         logger.info("xxxxxxxxxxxxxxxxxx>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + oldBoardDto);
+	         int res = sdboardBiz.updateBoardYesImg(sdboardDto);
+	         if(res > 0) {
+	            logger.info("board Update Res >>>>>>>>>>>>>>>> [글 수정 성공] Board update success");
+	            return "redirect:/BOARD_boarddetail.do?boardNo=" + sdboardDto.getSdbseq();
+	         } else {
+	            logger.info("board Update Res >>>>>>>>>>>>>>>> [글 수정 실패] Board update fail");
+	            model.addAttribute("boardDto",sdboardDto);
+	            return "redirect:/BOARD_boardupdate.do";
+	         }
+	      }
+	   }
+
 	   
 }

@@ -21,6 +21,7 @@ public interface SdboardDao {
 	public List<SdboardDto> selectThird(SdboardDto dto);
 	//글 하나만 보기
 	public SdboardDto selectDetail(SdboardDto dto);
+	public SdboardDto selectOne(int sdbseq);
 	//글 즐겨찾기 보기
 
 	
@@ -42,6 +43,10 @@ public interface SdboardDao {
 	public int insertBoardNoImg(SdboardDto dto);
 	//DB에 글 수정(이미지o이기 때문에 수정인거)
 	public int updateBoardYesImg(SdboardDto dto);
+	//파일업로드, 이미지 수정
+	public int updateImg(SdboardDto dto);
+	//content 안에 img태그가 없을 경우 >>> DB 이미지 썸네일,이미지경로 컬럼 값 삭제
+	public int updateNoImgBoard(SdboardDto dto);
 	
 	/* INSERT / UPDATE / DELETE */
 	

@@ -53,6 +53,11 @@ public class SdboardBizImpl implements SdboardBiz {
 		return dao.selectDetail(dto);
 	}
 
+	@Override
+	public SdboardDto selectOne(int sdbseq) {
+		// TODO Auto-generated method stub
+		return dao.selectOne(sdbseq);
+	}
 	
 	/*페이징*/
 	
@@ -98,6 +103,18 @@ public class SdboardBizImpl implements SdboardBiz {
 	public int updateBoardYesImg(SdboardDto dto) {
 		// TODO Auto-generated method stub
 		return dao.updateBoardYesImg(dto);
+	}
+	
+	@Override
+	public int updateImg(SdboardDto dto) {
+		// TODO Auto-generated method stub
+		return dao.updateImg(dto);
+	}
+	
+	@Override
+	public int updateNoImgBoard(SdboardDto dto) {
+		// TODO Auto-generated method stub
+		return dao.updateNoImgBoard(dto);
 	}
 
 
@@ -147,6 +164,9 @@ public class SdboardBizImpl implements SdboardBiz {
 		// TODO Auto-generated method stub
 		return dao.replyDelete(dto);
 	}
+
+
+
 
 
 
