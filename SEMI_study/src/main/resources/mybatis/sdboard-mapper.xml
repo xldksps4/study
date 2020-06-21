@@ -27,7 +27,7 @@
 		select * from SDBOARD
 	</select>
 
-	<select id="selectOne" resultMap="sduserMap">
+	<select id="selectOne" parameterType="int" resultMap="sdboardMap">
 		select * from SDBOARD where SDBSEQ = #{sdbseq}
 	</select>
 

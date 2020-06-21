@@ -43,7 +43,7 @@
          <h2>${boardDto.sdbseq}번 글 상세</h2>
          <!-- onclick="location.href='writeCancel.do'" -->
          <input type="button" class="button" value="목록으로" onclick="location.href='BOARD_writeCancel.do'"/>
-         <input type="button" class="button" value="수정하기" onclick="authorityChk('${login.sduemail }', '${boardDto.sduemail }', ${boardDto.sdbseq })"/>
+         <input type="button" class="button" value="수정하기" onclick="authorityChk('${sduserDto.sduemail }', '${boardDto.sduemail }', ${boardDto.sdbseq })"/>
          <br>
          <hr>
       </div>

@@ -102,10 +102,10 @@ public class SdboardDaoImpl implements SdboardDao{
 	
 	@Override
 	public SdboardDto selectOne(int sdbseq) {
-		logger.info("[DaoImpl]____selectOne, sdbseq >>> : " + sdbseq);
-		SdboardDto result = null;
+		logger.info("[DaoImpl]____selectOne 전, sdbseq >>> : " + sdbseq);
+		SdboardDto result;
 		result = sqlSession.selectOne(NAMESPACE+"selectOne", sdbseq);
-		
+		logger.info("[DaoImpl]____selectOne 결과, sdbseq >>> : " + sdbseq);
 		
 		return result;
 	}

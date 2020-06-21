@@ -1,9 +1,9 @@
 //유저id ===작성자 id >>> 업데이트.do
 function authorityChk(id, boardId, boardNo){
    if(id === boardId){
-      location.href='update.do?sdbseq=' + boardNo
+      location.href='BOARD_boardupdate.do?sdbseq=' + boardNo
    } else {
-      alert("글 수정 권한이 없습니다.")
+      alert("글 수정 권한이 없습니다."+ id +" / "+ boardId +" / "+ boardNo)
    }
 } 
 

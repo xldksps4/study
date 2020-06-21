@@ -148,9 +148,10 @@ function AjaxFileUpdate(){   // fileList 파일 배열
       for(let i = 0; i<fileList.length; i++){                           // 전송용객체에 데이터를 담는다.
          formDate.append("fileArr", fileList[i]);   
       }
-      let boardNo = document.getElementById("boardNo").value
-      formDate.append("boardNo", boardNo);   // 업데이트를 위해 pk를 추가
+      let boardNo = document.getElementById("sdbseq").value
+      formDate.append("sdbseq", boardNo);   // 업데이트를 위해 pk를 추가
       
+      console.log("boardNo >>> "+boardNo)
       console.log("4) AjaxFileUpdate >>>>> input : " + formDate);
       
       $.ajax({
@@ -180,7 +181,8 @@ function AjaxFileUpdate(){   // fileList 파일 배열
                      if(i == imgArr.length-1){
                         // 문제 해결 코드 : 썸머노트의 캐시를 피하기위해 썸머노트의 본문 내용을 hidden태그의 value 넣어서 submit 실행
                         let summernoteContent = document.getElementsByClassName("note-editable")[0]
-                        let content = document.getElementsByName("boardContent")[0]
+                        let content = document.getElementsByName("sdbcontent")[0]
+                        console.log("content >>> "+content)
                         content.value = summernoteContent.innerHTML      // div의 내용은 innerHTML을 통해 가져올 수 있다.
                      }
                   }

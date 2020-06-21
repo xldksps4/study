@@ -94,13 +94,13 @@ public class SdboardController {
 	@RequestMapping(value="/BOARD_writeCancel.do")
 	public String writeCancel(Model model, SdboardDto dto) {
 		logger.info("[Controller]____writeCancel");
-		
+	
 		//리스트
 		List<SdboardDto> boardDto = sdboardBiz.boardList(dto);
-				
+			
 		model.addAttribute("boardDto", boardDto);
 		
-		return "board/boardlist";
+		return "redirect:/BOARD_goboardlist.do";
 	}
 	
 	   // 비동기 멀티 이미지 업로드
@@ -386,7 +386,7 @@ public class SdboardController {
 	   public String boardMain(HttpSession session, Model model, @ModelAttribute SdboardDto dto, @RequestParam(defaultValue = "1") int currentPage) {
 	      logger.info("[Controller]____BOARD_pageingList >>> [input] sdboardDto : " + dto);   
 	   //세션
-	      SduserDto loginDto = (SduserDto)session.getAttribute("login");
+	      SduserDto loginDto = (SduserDto)session.getAttribute("sduserDto");
 	   //페이징   
 	      //1) 전체 게시물 개수 가져오기
 	      int totalBoardCount = sdboardBiz.getTotalBoard(dto);   // 전체게시물 수  or 검색한 게시물 수
@@ -438,11 +438,11 @@ public class SdboardController {
 	   // 수정하기 페이지
 	   @RequestMapping(value="/BOARD_boardupdate.do", method = RequestMethod.GET)
 	   public String update(Model model, @RequestParam("sdbseq") int sdbseq) {
-	   logger.info("board update page go sdbseq : " + sdbseq);
+	   logger.info("[Controller]____수정하기 페이지로 갑니다. sdbseq : " + sdbseq);
 	      SdboardDto boardDto = sdboardBiz.selectOne(sdbseq);
-	      model.addAttribute("board", boardDto);
+	      model.addAttribute("boardDto", boardDto);
 	      
-	      return "board/BOARD_boardupdate";
+	      return "board/boardupdate";
 	   }
 	   
 	   // 수정하기 이미지 업로드
@@ -476,16 +476,16 @@ public class SdboardController {
 	            if(j == 0) {
 	               // 파일과 썸내일 생성 >> 썸내일이름[0], 원본파일이름[1] 배열로 리턴
 	               String[] tempName =  UploadFileUtils.imgUploadAndThumb(imgUploadPath, file.getOriginalFilename(), file.getBytes(), id_ymdPath);
-	               // DB에 저장할 경로 : /update/resources/img/board/img + / + 유져id/년/월/일 + /s/ + / 썸내일 파일명 
-	               thumbImgName = "/update/resources/img/board/img" + File.separator + id_ymdPath + "/s/"  + tempName[0];  
-	               // DB에 저장할 경로 : /update/resources/img/board/img + / + 유져id/년/월/일 + / + 파일명 
-	               imgNameArr[0] = "/update/resources/img/board/img" + File.separator + id_ymdPath + File.separator + tempName[1];
+	               // DB에 저장할 경로 : /semi/resources/img/board + / + 유져id/년/월/일 + /s/ + / 썸내일 파일명 
+	               thumbImgName = "/semi/resources/img/board" + File.separator + id_ymdPath + "/s/"  + tempName[0];  
+	               // DB에 저장할 경로 : /semi/resources/img/board + / + 유져id/년/월/일 + / + 파일명 
+	               imgNameArr[0] = "/semi/resources/img/board" + File.separator + id_ymdPath + File.separator + tempName[1];
 	               
 	            } else {
 	               // 파일 생성
 	               String fileName = UploadFileUtils.fileUpload(imgUploadPath, file.getOriginalFilename(), file.getBytes(), id_ymdPath);
-	               // DB에 저장할 경로 : /update/resources/img/board/img + / + 유져id/년/월/일 + / + 파일명 
-	               imgNameArr[j] = "/update/resources/img/board/img" + File.separator + id_ymdPath + File.separator + fileName;
+	               // DB에 저장할 경로 : /semi/resources/img/board + / + 유져id/년/월/일 + / + 파일명 
+	               imgNameArr[j] = "/semi/resources/img/board" + File.separator + id_ymdPath + File.separator + fileName;
 	            }
 	            j++;
 	         } 
@@ -533,9 +533,9 @@ public class SdboardController {
 	   }
 	   
 	   
-	   @RequestMapping(value="/updateRes", method = RequestMethod.POST)
+	   @RequestMapping(value="/updateRes.do", method = RequestMethod.POST)
 	   public String updateBoard(Model model, @ModelAttribute SdboardDto sdboardDto, HttpSession session) throws IOException {
-	      logger.info("board Update Res >>>>>>>>>>>>>>>>>>>>> " + sdboardDto);
+	      logger.info("[Controller]____board Update Res >>>>>>>>>>>>>>>>>>>>> " + sdboardDto);
 	      
 	      // #1 세션에서 id 찾기
 	      SduserDto sduserDto = (SduserDto) session.getAttribute("sduserDto");
@@ -592,7 +592,7 @@ public class SdboardController {
 	         int res = sdboardBiz.updateBoardYesImg(sdboardDto);
 	         if(res > 0) {
 	            logger.info("board Update Res >>>>>>>>>>>>>>>> [글 수정 성공] Board update success");
-	            return "redirect:/BOARD_boarddetail.do?boardNo=" + sdboardDto.getSdbseq();
+	            return "redirect:/BOARD_boarddetail.do?sdbseq=" + sdboardDto.getSdbseq();
 	         } else {
 	            logger.info("board Update Res >>>>>>>>>>>>>>>> [글 수정 실패] Board update fail");
 	            model.addAttribute("boardDto",sdboardDto);

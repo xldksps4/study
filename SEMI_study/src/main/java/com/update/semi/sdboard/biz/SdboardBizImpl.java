@@ -55,7 +55,7 @@ public class SdboardBizImpl implements SdboardBiz {
 
 	@Override
 	public SdboardDto selectOne(int sdbseq) {
-		// TODO Auto-generated method stub
+		logger.info("[BizImpl]____sdbseq : " + sdbseq);
 		return dao.selectOne(sdbseq);
 	}
 	
