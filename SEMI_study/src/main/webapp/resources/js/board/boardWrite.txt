@@ -1,0 +1,3 @@
+boardWrite 관련 js는 summernote와 묶여있습니다.
+
+summernote 폴더의 'summernote-fileupload'파일을 열어보세요

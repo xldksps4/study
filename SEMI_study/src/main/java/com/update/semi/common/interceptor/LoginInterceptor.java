@@ -24,8 +24,8 @@ public class LoginInterceptor implements HandlerInterceptor {
 		
 		logger.info("[requestMethod] : " + request.getMethod());
 		logger.info("[requestURI] : " + request.getRequestURI());
-	 // JoinUserDto loginDto = (JoinUserDto) request.getSession().getAttribute("login");
-		SduserDto loginDto = (SduserDto) request.getSession().getAttribute("login");
+	 // JoinUserDto loginDto = (JoinUserDto) request.getSession().getAttribute("sduserDto");
+		SduserDto loginDto = (SduserDto) request.getSession().getAttribute("sduserDto");
 		
 //      // 로그인 되어 있으면 모든 페이지 허용
 //      if (loginDto != null) {

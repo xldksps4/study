@@ -14,7 +14,7 @@
 	<!-- db.properties -->
 	<!-- classpath: = ? src/main/resources 를 자동으로 연결해줌 -->
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
+		<property name="locations"> <!-- 단일값일 경우 location -->
 			<list>
 				<value>classpath:mybatis/db.properties</value>
 			</list>
@@ -22,12 +22,13 @@
 	</bean>
 	
 <!-- 2) 참조한 db.properties를 읽어  BasicDataSource(데이터 베이스 커넥션 풀객체) Bean추가 -->
+	<!-- DBCP 기능 -->
 	<!-- dataSource -->
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
-		<property name="driverClassName" value="${driver}"></property>
-		<property name="url" value="${url}"></property>
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"> <!-- IoC , BasicDataSource dataSource = new BasicDataSource() -->
+		<property name="driverClassName" value="${driver}"></property>	   <!-- dataSource.setDriverClassName(${driver}) -->
+		<property name="url" value="${url}"></property>					<!--  DI -->
 		<property name="username" value="${username}"></property>
-		<property name="password" value="${password}"></property>
+		<property name="password" value="${password}"></property>		<!-- properties가 여러개일 경우 properties 값을 A.이름 과 같은 형태로 작성  -->
 	</bean>
 
 <!-- 3) mybatis의 SqlSession을 인스턴스화 하기위한 객체 SqlSessionFactoryBean Bean추가
